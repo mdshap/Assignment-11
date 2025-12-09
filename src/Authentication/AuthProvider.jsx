@@ -9,10 +9,10 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
-import { auth } from "../firebase/firebase.init";
 import { useState } from "react";
 import { useEffect } from "react";
 import { AuthContext } from "./AuthContext";
+import { auth } from "../Firebase/firebase.init";
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -21,23 +21,23 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [registerLoading, setRegisterLoading] = useState(false);
 
-
-  const createUser = (name, email, password) => {
-  setLoading(true);
-  return createUserWithEmailAndPassword(auth, email, password)
-    .then(result => {
-      return updateProfile(result.user, { displayName: name })
-        .then(() => {
+  const createUser = (name, email, password, photoURL) => {
+    setLoading(true);
+    return createUserWithEmailAndPassword(auth, email, password)
+      .then((result) => {
+        return updateProfile(result.user, {
+          displayName: name,
+          photoURL: photoURL,
+        }).then(() => {
           setLoading(false);
           return result;
         });
-    })
-    .catch(err => {
-      setLoading(false);
-      throw err;
-    });
-};
-
+      })
+      .catch((err) => {
+        setLoading(false);
+        throw err;
+      });
+  };
 
   const signInUser = (email, password) => {
     setLoading(true);

@@ -3,6 +3,7 @@ import { use } from "react";
 import { Link, NavLink } from "react-router";
 import { FaUser } from "react-icons/fa";
 import { MdOutlineAssignment } from "react-icons/md";
+import { IoSchool } from "react-icons/io5";
 import { FaBookOpen } from "react-icons/fa";
 import { MdLogout } from "react-icons/md";
 import { AuthContext } from "../../Authentication/AuthContext";
@@ -48,7 +49,7 @@ const Navbar = () => {
         <NavLink to="/" data-tooltip-id="my-tooltip" data-tooltip-content="Home Page" >Home</NavLink>
       </li>
       <li>
-        <NavLink to="/all-books" data-tooltip-id="my-tooltip" data-tooltip-content="All available books in the website">All Books</NavLink>
+        <NavLink to="/all-scholarships" data-tooltip-id="my-tooltip" data-tooltip-content="All available books in the website">All Scholarships</NavLink>
       </li>
       {user ? (
         ""
@@ -126,10 +127,10 @@ const Navbar = () => {
             </ul>
           </div>
           <a
-            className="btn btn-ghost text-lg sm:text-xl font-bold hover:bg-transparent hover:border-0 flex items-center"
+            className="btn btn-ghost text-lg sm:text-2xl font-bold hover:bg-transparent hover:border-0 flex items-center"
             href="/">
-              <FaBookOpen></FaBookOpen>
-            Books<span className="text-secondary">Haven</span>
+              <IoSchool className="text-green-600"/>
+            Scholar<span className="text-green-600">Stream</span>
           </a>
         </div>
 
@@ -149,20 +150,20 @@ const Navbar = () => {
               />
               <a
                 onClick={handleSignOut}
-                className="btn btn-secondary hover:bg-secondary text-[11px] md:text-[14px] hover:text-white bg-transparent text-secondary">
+                className="btn btn-secondary hover:bg-secondary text-[11px] md:text-[16px] hover:text-white bg-transparent text-secondary">
                 <p className="hidden sm:block">Logout</p> <MdLogout />
               </a>
             </div>
           ) : (
-            <div className="flex gap-2">
+            <div className="flex gap-2 ">
               <Link
-                className="btn px-2 h-8 sm:h-10 sm:px-4 text-[10px] md:text-[14px] btn-secondary"
+                className="btn px-2 py-2 h-8 sm:h-10 sm:px-4 text-[10px] md:text-[16px] bg-green-600 text-white"
                 to="/login">
                 Login <FaUser />
               </Link>
               <Link
                 to="/register"
-                className="btn text-[10px] px-2 h-8 sm:h-10 py-2 sm:px-4 md:text-[14px] border-secondary text-secondary">
+                className="btn text-[10px] px-2 h-8 sm:h-10 py-2 sm:px-4 md:text-[16px] border-blue-500 text-blue-500">
                 Register <MdOutlineAssignment />
               </Link>
             </div>
