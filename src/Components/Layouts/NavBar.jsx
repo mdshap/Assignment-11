@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { use } from "react";
 import { Link, NavLink } from "react-router";
 import { FaUser } from "react-icons/fa";
-import { MdOutlineAssignment } from "react-icons/md";
+import { MdDashboard, MdOutlineAssignment } from "react-icons/md";
 import { IoSchool } from "react-icons/io5";
-import { FaBookOpen } from "react-icons/fa";
 import { MdLogout } from "react-icons/md";
 import { AuthContext } from "../../Authentication/AuthContext";
 
@@ -20,36 +19,24 @@ const Navbar = () => {
       .catch((error) => console.log(error.message));
   };
 
-  const [theme, setTheme] = useState(() => {
-    const saved =
-      typeof window !== "undefined" ? localStorage.getItem("theme") : null;
-    if (saved) return saved;
-    if (
-      typeof window !== "undefined" &&
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches
-    ) {
-      return "dark";
-    }
-    return "light";
-  });
-
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme((theme) => (theme === "dark" ? "light" : "dark"));
-  };
 
   const links = (
     <div className="lg:flex gap-3  text-center">
       <li>
-        <NavLink to="/" data-tooltip-id="my-tooltip" data-tooltip-content="Home Page" >Home</NavLink>
+        <NavLink
+          to="/"
+          data-tooltip-id="my-tooltip"
+          data-tooltip-content="Home Page">
+          Home
+        </NavLink>
       </li>
       <li>
-        <NavLink to="/all-scholarships" data-tooltip-id="my-tooltip" data-tooltip-content="All available books in the website">All Scholarships</NavLink>
+        <NavLink
+          to="/all-scholarships"
+          data-tooltip-id="my-tooltip"
+          data-tooltip-content="All available books in the website">
+          All Scholarships
+        </NavLink>
       </li>
       {user ? (
         ""
@@ -59,12 +46,22 @@ const Navbar = () => {
             ""
           ) : (
             <>
-            <li>
-              <NavLink to="/register" data-tooltip-id="my-tooltip" data-tooltip-content="Connect with us!">Register</NavLink>
-            </li>
-            <li>
-              <NavLink to="/login"  data-tooltip-id="my-tooltip" data-tooltip-content="Connect with us!">Login</NavLink>
-            </li>
+              <li>
+                <NavLink
+                  to="/register"
+                  data-tooltip-id="my-tooltip"
+                  data-tooltip-content="Connect with us!">
+                  Register
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/login"
+                  data-tooltip-id="my-tooltip"
+                  data-tooltip-content="Connect with us!">
+                  Login
+                </NavLink>
+              </li>
             </>
           )}
         </>
@@ -73,39 +70,29 @@ const Navbar = () => {
       {user && (
         <>
           <li>
-            <NavLink to="/add-book" data-tooltip-id="my-tooltip" data-tooltip-content="Add Y=your books in our library">Add Book</NavLink>
+            <NavLink
+              to="/dashboard"
+              data-tooltip-id="my-tooltip"
+              data-tooltip-content="Add Y=your books in our library">
+              Dashboard
+            </NavLink>
           </li>
-          <li>
-            <NavLink to="/myBooks" data-tooltip-id="my-tooltip" data-tooltip-content="Books that are added by you">My Books</NavLink>
-          </li>
+          
         </>
       )}
-      <>
-        <div className="flex items-center gap-3 mt-1 lg:mt-0">
-          <span className="text-[18.5px] lg:text-[13px] ml-4 ">
-            {theme === "dark" ? "Dark" : "Light"}
-          </span>
-          <input
-          data-tooltip-id="my-tooltip" data-tooltip-content="Switch between Dark & Light mode"
-            type="checkbox"
-            className="toggle lg:ml-0 ml-28 toggle-primary"
-            checked={theme === "dark"}
-            onChange={toggleTheme}
-          />
-          
-        </div>
-      </>
+    
     </div>
   );
-
-
 
   return (
     <div className="">
       <div className="navbar min-h-20 sm:min-h-0 bg-base-100 max-w-[1600px] mx-auto shadow-sm">
         <div className="navbar-start px-2 sm:px-6 ">
           <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn btn-ghost px-2 lg:hidden">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost px-2 lg:hidden">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-4.5"
@@ -129,7 +116,7 @@ const Navbar = () => {
           <a
             className="btn btn-ghost text-lg sm:text-2xl font-bold hover:bg-transparent hover:border-0 flex items-center"
             href="/">
-              <IoSchool className="text-green-600"/>
+            <IoSchool className="text-green-600" />
             Scholar<span className="text-green-600">Stream</span>
           </a>
         </div>
@@ -137,22 +124,46 @@ const Navbar = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{links}</ul>
         </div>
-        
+
         <div className="navbar-end">
           {user ? (
-            <div className="flex gap-2 justify-center items-center">
-              <img
-                className="rounded-full object-cover w-10 h-10"
-                 data-tooltip-id="my-tooltip" data-tooltip-content={user?.displayName}
-                src={`${user.photoURL}`}
-                alt="user_img"
-                title={`User: ${user?.displayName}`}
-              />
-              <a
-                onClick={handleSignOut}
-                className="btn btn-secondary hover:bg-secondary text-[11px] md:text-[16px] hover:text-white bg-transparent text-secondary">
-                <p className="hidden sm:block">Logout</p> <MdLogout />
-              </a>
+            <div className="  md:mr-19">
+              <div className="dropdown dropdown-end md:dropdown-center">
+                <div tabIndex={0} role="button" className=" m-1">
+                  <Link to="/profile">
+                    <img
+                      className="rounded-full cursor-pointer object-cover w-13 h-13"
+                      data-tooltip-id="my-tooltip"
+                      data-tooltip-content={user?.displayName}
+                      src={`${user?.photoURL}`}
+                      alt="user_img"
+                      title={`User: ${user?.displayName}`}
+                    />
+                  </Link>
+                </div>
+                <ul
+                  tabIndex="-1"
+                  className="dropdown-content menu bg-base-100 rounded-box z-1 w-45 md:w-55 border p-2 shadow-sm">
+                  <li>
+                    <a>
+                      {" "}
+                      <FaUser /> Profile
+                    </a>
+                  </li>
+                  <li>
+                    <Link to="/dashboard">
+                      <MdDashboard /> Dashboard
+                    </Link>
+                  </li>
+                  <li>
+                    <a
+                      onClick={handleSignOut}
+                      className="btn mt-3 h-8 btn-secondary hover:bg-secondary text-[10px] md:text-[12px] hover:text-white bg-transparent text-secondary">
+                      <p className="">Logout</p> <MdLogout />
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </div>
           ) : (
             <div className="flex gap-2 ">

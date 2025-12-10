@@ -6,6 +6,13 @@ import Register from "./Pages/Login-Register/Register";
 import AllScholarship from "./Pages/All Scholarship/AllScholarship";
 import Error404 from "./Pages/Errors/Error404";
 import ScholarshipDetails from "./Pages/All Scholarship/ScholarshipDetails";
+import Dashboard from "./Layouts/Dashboard";
+import DashHome from "./Pages/Dashboard/DashHome";
+import Profile from "./Pages/Dashboard/Profile";
+import AddScholarship from "./Pages/Dashboard/Admin/AddScholarship";
+import ManageScholarship from "./Pages/Dashboard/Admin/ManageScholarship";
+import ManageUsers from "./Pages/Dashboard/Admin/ManageUsers";
+import Analytics from "./Pages/Dashboard/Admin/Analytics";
 
 export const router = createBrowserRouter([
 {
@@ -39,6 +46,33 @@ export const router = createBrowserRouter([
     ]
 },
 {
-
+    path: '/dashboard',
+    Component: Dashboard,
+    children: [
+        {
+            index: true,
+            Component: DashHome,
+        },
+        {
+            path:'profile',
+            Component: Profile
+        },
+        {
+            path: 'add-scholarship',
+            Component: AddScholarship
+        },
+        {
+            path: 'manage-scholarship',
+            Component: ManageScholarship
+        },
+        {
+            path: 'manage-users',
+            Component: ManageUsers
+        },
+        {
+            path: 'analytics',
+            Component: Analytics
+        }
+    ]
 }
 ])
