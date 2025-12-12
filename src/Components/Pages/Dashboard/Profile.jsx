@@ -82,13 +82,13 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen max-h-screen  flex mx-auto items-center  p-2 sm:p-6">
+    <div className="min-h-screen   flex mx-auto items-center  p-2 sm:p-6">
     <div className="">
       <div className=" max-w-[700px] backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/10  w-full">
         <div className="flex flex-col items-center gap-6">
 
           <div className="flex items-center flex-col md:flex-row gap-10 ">
-          <div className="w-40 h-40 rounded-xl overflow-hidden bg-linear-to-br from-green-600 to-green-400 flex items-center justify-center text-white text-3xl">
+          <div className=" w-30 h-30 md:w-40 md:h-40 rounded-xl overflow-hidden bg-linear-to-br from-green-600 to-green-400 flex items-center justify-center text-white text-3xl">
             {user?.photoURL ? (
               <img src={user?.photoURL} alt="avatar" className="w-full h-full object-cover" />
             ) : (
@@ -100,9 +100,9 @@ const Profile = () => {
           </div>
 
           <div className="flex-1 text-center md:text-left">
-              <h2 className="text-3xl font-bold text-black">{profile.name}</h2>
+              <h2 className="text-lg md:text-3xl font-bold text-black">{profile.name}</h2>
               <p className="mt-2 text-green-700 bg-green-300 inline-block px-3 py-1 rounded-full text-sm">{profile.role}</p>
-              <p className="text-gray-700 mt-4 max-w-xl">{profile.bio}</p>
+              <p className="text-gray-700 mt-4 text-sm md:text-lg max-w-xl">{profile.bio}</p>
             </div>
             </div>
      
@@ -114,8 +114,8 @@ const Profile = () => {
               <div className="w-full gap-3 p-3 rounded-lg bg-base-300">
                 
                 <div>
-                  <div className="text-sm flex items-center gap-2 text-gray-600"> <FaEnvelope className="" /> <p>Email</p> </div>
-                  <div className="flex items-center gap-2">
+                  <div className="text-sm flex items-center justify-center sm:justify-start gap-2 text-gray-600"> <FaEnvelope className="" /> <p>Email</p> </div>
+                  <div className="flex items-center gap-2 text-sm">
                     <span className="font-medium text-gray-700 break-all">{profile.email}</span>
                     
                   </div>
@@ -125,8 +125,8 @@ const Profile = () => {
               <div className="w-full gap-3 p-3 rounded-lg bg-base-300">
                 
                 <div>
-                  <div className="text-sm flex gap-2 items-center text-gray-600"><FaUser className="text-gray-600" /> <p>Role</p></div>
-                  <div className="font-medium text-green-600">{profile.role}</div>
+                  <div className="text-sm flex gap-2 items-center justify-center text-gray-600"><FaUser className="text-gray-600 text-sm" /> <p className="text-center">Role</p></div>
+                  <div className="font-medium text-green-600 text-center text-sm">{profile.role}</div>
                 </div>
               </div>
             </div>

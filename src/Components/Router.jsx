@@ -13,6 +13,8 @@ import AddScholarship from "./Pages/Dashboard/Admin/AddScholarship";
 import ManageScholarship from "./Pages/Dashboard/Admin/ManageScholarship";
 import ManageUsers from "./Pages/Dashboard/Admin/ManageUsers";
 import Analytics from "./Pages/Dashboard/Admin/Analytics";
+import ManageApplication from "./Pages/Dashboard/Moderator/ManageApplication";
+import ManageReview from "./Pages/Dashboard/Moderator/ManageReview";
 
 export const router = createBrowserRouter([
 {
@@ -72,6 +74,14 @@ export const router = createBrowserRouter([
         {
             path: 'analytics',
             Component: Analytics
+        },
+        {
+            path: 'manage-applications',
+            Component: ManageApplication
+        },
+        {
+            path: 'manage-reviews',
+            Component: ManageReview
         }
     ]
 }

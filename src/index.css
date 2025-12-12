@@ -3,5 +3,6 @@
 
 
 .active{
-  @apply bg-green-600 text-white px-5
+  @apply bg-green-600 text-white md:px-4
 }
+

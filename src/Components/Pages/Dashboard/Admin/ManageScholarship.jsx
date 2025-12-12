@@ -117,15 +117,14 @@ const ManageScholarships = ({
       </div>
 
 
-      <div className="hidden md:block">
+      <div className="hidden lg:block">
         <table className="table w-full">
           <thead>
-            <tr>
+            <tr className="text-center">
               <th>Preview</th>
               <th>Name</th>
               <th>University</th>
-              <th>Country</th>
-              <th>Degree</th>
+              <th className="">Degree</th>
               <th>Deadline</th>
               <th className="text-right">Actions</th>
             </tr>
@@ -152,12 +151,11 @@ const ManageScholarships = ({
                   <div className="font-medium">{s.name}</div>
                   <div className="text-sm text-base-content/60">{s.subjectCategory}</div>
                 </td>
-                <td>{s.university}</td>
-                <td>{s.country}</td>
-                <td>{s.degree}</td>
+                <td><p className="text-center">{s.university}</p> <p className="text-center">{s.country}</p></td>
+                <td className="">{s.degree}</td>
                 <td>{s.deadline || "-"}</td>
                 <td className="text-right">
-                  <div className="flex items-center justify-end gap-2">
+                  <div className="grid justify-end gap-2">
                     <button
                       onClick={() => openEdit(s)}
                       className="btn btn-sm bg-green-500 hover:bg-green-600 text-white"
@@ -166,7 +164,7 @@ const ManageScholarships = ({
                     </button>
                     <button
                       onClick={() => confirmDelete(s.id)}
-                      className="btn btn-sm bg-red-100 text-red-700 hover:bg-red-200"
+                      className="btn btn-sm bg-red-400 text-white "
                     >
                       <FaTrash /> <span className="ml-2">Delete</span>
                     </button>
@@ -179,43 +177,45 @@ const ManageScholarships = ({
       </div>
 
       {/* Mobile cards */}
-      <div className="md:hidden space-y-3">
+      <div className="lg:hidden space-y-3">
         {filtered.length === 0 && (
           <div className="text-sm text-base-content/60">No scholarships found</div>
         )}
 
         {filtered.map((s) => (
+          <div className="flex gap-3 p-2 rounded-lg bg-base-200 justify-between">
           <div
             key={s.id}
-            className="p-3 rounded-lg bg-base-200 flex items-start gap-3"
+            className=" w-full flex justify-between gap-3"
           >
-            <img
+            <div><img
               src={s.image || "https://via.placeholder.com/80x50"}
               alt={s.name}
               className="w-20 h-12 object-cover rounded"
-            />
-            <div className="flex-1">
-              <div className="font-medium">{s.name}</div>
+            /></div>
+            
+              <div className="font-medium text-sm sm:text-md"><p>{s.name}</p> <p className="text-sm font-normal text-gray-500 text-center">{s.subjectCategory}</p></div>
               <div className="text-sm text-base-content/70">
-                {s.university} • {s.country} • {s.degree}
+                <p className="text-green-600 text-center">{s.university}</p> <p className="text-blue-500 text-center">{s.country} </p> <p className="text-center">{s.degree}</p>
               </div>
+             </div>
 
-              <div className="mt-2 flex gap-2">
+              <div className="mt-2 grid gap-2">
                 <button
                   onClick={() => openEdit(s)}
                   className="px-3 py-1 rounded bg-green-500 text-white text-sm"
                 >
-                  Update
+                  <div className="flex items-center gap-2">
+                    <FaEdit /> <p className="hidden sm:block">Update</p></div>
                 </button>
                 <button
                   onClick={() => confirmDelete(s.id)}
-                  className="px-3 py-1 rounded bg-red-100 text-red-700 text-sm"
+                  className="px-3 py-1 rounded bg-red-400 flex items-center gap-2 text-white text-sm"
                 >
-                  Delete
+                  <FaTrash /> <p className="hidden sm:block">Delete</p>
                 </button>
               </div>
             </div>
-          </div>
         ))}
       </div>
 

@@ -88,16 +88,16 @@ const ManageUsers = ({ initial = [], onChange = () => {} }) =>{
             {visible.map((u) => (
               <tr key={u.id}>
                 <td>
-                  <div className="font-medium">{u.name}</div>
+                  <div className="font-medium text-pink-600">{u.name}</div>
                 </td>
                 <td>{u.email}</td>
-                <td>{u.role}</td>
+                <td className="text-green-600">{u.role}</td>
                 <td className="text-right">
                   <div className="flex items-center justify-end gap-2">
                     <button onClick={() => openEdit(u)} className="btn btn-sm bg-green-500 hover:bg-green-600 text-white">
                       <FaUserEdit /> <span className="ml-2">Change Role</span>
                     </button>
-                    <button onClick={() => deleteUser(u.id)} className="btn btn-sm bg-red-100 text-red-700 hover:bg-red-200">
+                    <button onClick={() => deleteUser(u.id)} className="btn btn-sm bg-red-400 text-white hover:bg-red-200">
                       <FaTrash /> <span className="ml-2">Delete</span>
                     </button>
                   </div>
@@ -108,18 +108,19 @@ const ManageUsers = ({ initial = [], onChange = () => {} }) =>{
         </table>
       </div>
 
+ {/* Mobile Device */}
       <div className="md:hidden space-y-3">
         {visible.length === 0 && <div className="text-sm text-base-content/60">No users found</div>}
         {visible.map((u) => (
           <div key={u.id} className="p-3 rounded-lg bg-base-200 flex items-center justify-between">
             <div>
-              <div className="font-medium">{u.name}</div>
+              <div className="font-medium text-pink-600">{u.name}</div>
               <div className="text-sm text-base-content/70">{u.email}</div>
-              <div className="text-xs mt-1">Role: <span className="font-medium">{u.role}</span></div>
+              <div className="text-xs mt-1">Role: <span className="font-medium text-green-600">{u.role}</span></div>
             </div>
-            <div className="flex flex-col items-end gap-2">
-              <button onClick={() => openEdit(u)} className="px-3 py-1 rounded bg-green-500 text-white text-sm">Change Role</button>
-              <button onClick={() => deleteUser(u.id)} className="px-3 py-1 rounded bg-red-100 text-red-700 text-sm">Delete</button>
+            <div className="grid items-end gap-2">
+              <button onClick={() => openEdit(u)} className="px-3 py-1 rounded bg-green-500 text-white text-sm flex items-center gap-2"> <FaUserEdit /> <span>Change Role</span></button>
+              <button onClick={() => deleteUser(u.id)} className="px-3 py-1 rounded bg-red-400 text-white text-sm">Delete</button>
             </div>
           </div>
         ))}
@@ -131,7 +132,7 @@ const ManageUsers = ({ initial = [], onChange = () => {} }) =>{
           <div className="absolute inset-0 bg-black/40" onClick={closeEdit} />
 
           <div className="relative w-full max-w-md bg-base-100 p-4 rounded-2xl shadow">
-            <h4 className="text-lg font-semibold mb-3">Change Role</h4>
+            <h4 className="text-lg font-semibold mb-3"> Change Role</h4>
 
             <div>
               <label className="text-sm text-base-content/70">User</label>

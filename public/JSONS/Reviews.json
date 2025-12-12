@@ -1,0 +1,32 @@
+[
+  {
+    "id": "r1",
+    "studentName": "Aisha Rahman",
+    "studentEmail": "aisha@studentmail.com",
+    "scholarshipName": "Global Excellence Scholarship",
+    "university": "Harvard University",
+    "rating": 5,
+    "review": "Amazing opportunity — helped me cover full tuition. Highly recommended!",
+    "postedOn": "2025-02-10"
+  },
+  {
+    "id": "r2",
+    "studentName": "Rafi Ahmed",
+    "studentEmail": "rafi@studentmail.com",
+    "scholarshipName": "International Merit Award",
+    "university": "University of Toronto",
+    "rating": 4,
+    "review": "Good support, application process was smooth, but response time could be faster.",
+    "postedOn": "2025-01-22"
+  },
+  {
+    "id": "r3",
+    "studentName": "Sadia Khan",
+    "studentEmail": "sadia@studentmail.com",
+    "scholarshipName": "Asian Scholars Grant",
+    "university": "University of Tokyo",
+    "rating": 3,
+    "review": "Helpful but paperwork was heavy. Would recommend preparing early.",
+    "postedOn": "2025-03-05"
+  }
+]
