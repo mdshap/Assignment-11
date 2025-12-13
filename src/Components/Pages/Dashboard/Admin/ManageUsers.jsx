@@ -52,7 +52,7 @@ const ManageUsers = ({ initial = [], onChange = () => {} }) =>{
   }
 
   return (
-    <div className="w-full max-w-5xl mx-auto bg-base-100 rounded-2xl p-4 shadow">
+    <div className="w-full max-w-7xl mx-auto bg-base-100 rounded-2xl p-4 shadow">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
         <h3 className="text-lg font-semibold">Manage Users</h3>
 
@@ -119,8 +119,8 @@ const ManageUsers = ({ initial = [], onChange = () => {} }) =>{
               <div className="text-xs mt-1">Role: <span className="font-medium text-green-600">{u.role}</span></div>
             </div>
             <div className="grid items-end gap-2">
-              <button onClick={() => openEdit(u)} className="px-3 py-1 rounded bg-green-500 text-white text-sm flex items-center gap-2"> <FaUserEdit /> <span>Change Role</span></button>
-              <button onClick={() => deleteUser(u.id)} className="px-3 py-1 rounded bg-red-400 text-white text-sm">Delete</button>
+              <button onClick={() => openEdit(u)} className="px-3 py-1 rounded bg-green-500 text-white text-sm flex items-center gap-2"> <FaUserEdit /> <span className="hidden sm:block">Change Role</span></button>
+              <button onClick={() => deleteUser(u.id)} className="px-3 py-1 flex items-center gap-1 justify-center rounded bg-red-400 text-white text-sm"> <FaTrash />  <p className="hidden sm:block">Delete</p></button>
             </div>
           </div>
         ))}

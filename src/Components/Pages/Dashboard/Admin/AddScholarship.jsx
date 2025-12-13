@@ -66,7 +66,7 @@ const AddScholarship = ({
   };
 
   return (
-    <div className=" mx-3 sm:max-w-[500px] md:max-w-[510px] lg:max-w-[800px] xl:max-w-[850px] sm:mx-auto my-4 w-full  bg-base-100 shadow rounded-2xl p-6">
+    <div className=" mx-3 sm:max-w-[500px] md:max-w-[510px] lg:max-w-[800px] xl:max-w-[1200px] sm:mx-auto my-4 w-full  bg-base-100 shadow rounded-2xl p-6">
       <h3 className="text-xl font-semibold mb-4">Add Scholarship</h3>
 
       <form

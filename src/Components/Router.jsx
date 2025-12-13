@@ -15,6 +15,8 @@ import ManageUsers from "./Pages/Dashboard/Admin/ManageUsers";
 import Analytics from "./Pages/Dashboard/Admin/Analytics";
 import ManageApplication from "./Pages/Dashboard/Moderator/ManageApplication";
 import ManageReview from "./Pages/Dashboard/Moderator/ManageReview";
+import MyApplications from "./Pages/Dashboard/Student/MyApplications";
+import MyReviews from "./Pages/Dashboard/Student/MyReviews";
 
 export const router = createBrowserRouter([
 {
@@ -82,6 +84,14 @@ export const router = createBrowserRouter([
         {
             path: 'manage-reviews',
             Component: ManageReview
+        },
+        {
+            path: 'my-applications',
+            Component: MyApplications
+        },
+        {
+            path:  'my-reviews',
+            Component: MyReviews
         }
     ]
 }

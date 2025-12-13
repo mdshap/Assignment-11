@@ -101,7 +101,7 @@ const ManageScholarships = ({
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto bg-base-100 rounded-2xl p-4 shadow">
+    <div className="w-full max-w-7xl mx-auto bg-base-100 rounded-2xl p-4 shadow">
 
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
         <h3 className="text-lg font-semibold">Manage Scholarships</h3>
@@ -194,9 +194,9 @@ const ManageScholarships = ({
               className="w-20 h-12 object-cover rounded"
             /></div>
             
-              <div className="font-medium text-sm sm:text-md"><p>{s.name}</p> <p className="text-sm font-normal text-gray-500 text-center">{s.subjectCategory}</p></div>
+              <div className="font-medium text-sm sm:text-md"><p>{s.name}</p> <p className="text-sm font-normal text-gray-500 sm:text-center">{s.subjectCategory}</p></div>
               <div className="text-sm text-base-content/70">
-                <p className="text-green-600 text-center">{s.university}</p> <p className="text-blue-500 text-center">{s.country} </p> <p className="text-center">{s.degree}</p>
+                <p className="text-green-600 text-center">{s.university}</p> <p className="text-blue-500 text-center">{s.country} </p> <p className=" text-center">{s.degree}</p>
               </div>
              </div>
 

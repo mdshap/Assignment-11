@@ -21,15 +21,14 @@ const cardAnimation = {
   },
 };
 
-const ScholarshipCard = ({ book }) => {
+const CardAllScholarship = ({ book }) => {
   return (
     <motion.article
       variants={cardAnimation}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: false, margin: "-80px" }}
-      className="w-full max-w-[350px] bg-white rounded-xl shadow-md overflow-hidden transform transition hover:-translate-y-1 hover:shadow-xl"
-    >
+      className="w-full max-w-[350px] bg-white rounded-xl shadow-md overflow-hidden transform transition hover:-translate-y-1 hover:shadow-xl">
       <div
         className="h-140 bg-center bg-cover"
         style={{ backgroundImage: `url(${book?.coverImage})` }}
@@ -55,8 +54,7 @@ const ScholarshipCard = ({ book }) => {
         <div className="mt-4 flex gap-3">
           <Link
             to={`/details/${book?._id}`}
-            className="flex-1 inline-flex items-center justify-center rounded-md px-3 py-2 text-sm font-medium bg-green-500 text-white hover:bg-indigo-700 transition"
-          >
+            className="flex-1 inline-flex items-center justify-center rounded-md px-3 py-2 text-sm font-medium bg-green-500 text-white hover:bg-indigo-700 transition">
             Details
           </Link>
         </div>
@@ -65,4 +63,4 @@ const ScholarshipCard = ({ book }) => {
   );
 };
 
-export default ScholarshipCard;
+export default CardAllScholarship;

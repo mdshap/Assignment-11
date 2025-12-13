@@ -2,34 +2,28 @@ import React, { use, useEffect, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../../../Authentication/AuthContext";
 import Loader from "../Loader/Loader";
-import ScholarshipCard from "../Home/ScholarshipCard";
 import { FaFilter } from "react-icons/fa";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Navigation } from "swiper/modules";
+
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+
+import CardAllScholarship from "./CardAllScholarship";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 const AllScholarship = () => {
   const [scholarships, setScholarships] = useState([]);
   const [scholarshipsLoading, setScholarshipsLoading] = useState(true);
   const { loading } = use(AuthContext);
-
-  const [selected, setSelected] = useState(new Set());
+  const [searchText, setSearchText] = useState("");
 
   const items = [
     { id: "full", label: "Full Funded" },
     { id: "semi", label: "Semi Funded" },
   ];
-
-  const toggle = (id) => {
-    setSelected((prev) => {
-      const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
-      return next;
-    });
-  };
-
-  //Searching
-  const [searchText, setSearchText] = useState("");
-  const filteredScholarships = scholarships.filter((sch) =>
-    sch.title.toLowerCase().includes(searchText.toLowerCase())
-  );
 
   useEffect(() => {
     axios
@@ -38,89 +32,86 @@ const AllScholarship = () => {
         setScholarships(res.data);
         setScholarshipsLoading(false);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch(console.log);
   }, []);
 
-  if (loading || scholarshipsLoading) {
-    return <Loader></Loader>;
-  }
+  if (loading || scholarshipsLoading) return <Loader />;
+
+  const filteredScholarships = scholarships.filter((sch) =>
+    sch.title.toLowerCase().includes(searchText.toLowerCase())
+  );
 
   return (
-    <div>
-      <div className="flex flex-col gap-2 md:flex-row md:justify-between  justify-center mt-4 mx-8 items-center">
-        <h3 className="text-2xl w-70 md:w-full font-semibold text-green-500"></h3>
-        <div className="flex items-center w-70 md:w-150 gap-2">
-          <div className="dropdown dropdown-left dropdown-hover">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn m-1 flex items-center gap-2">
-              <FaFilter className="" /> Category
-            </div>
+    <div className="w-full">
+      <div className="flex gap-3 justify-end items-center mt-4 mx-8">
+        <div className="dropdown dropdown-left dropdown-hover">
+          <button className="btn flex gap-2">
+            <FaFilter /> Category
+          </button>
 
-            <ul
-              tabIndex={-1}
-              className="dropdown-content menu bg-base-100 rounded-box z-10 w-52 p-2 shadow-sm">
-              {items.map((it) => (
-                <li className="" key={it.id}>
-                  <a
-                    href="#!"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      toggle(it.id);
-                    }}
-                    className={`block px-4 py-2 text-center rounded cursor-pointer transition mb-1 ${
-                      selected.has(it.id)
-                        ? "bg-green-100 border border-green-700 text-green-700 font-medium"
-                        : "hover:bg-gray-100"
-                    }`}>
-                    {it.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <label className="input">
-            <svg
-              className="h-[1em] opacity-50"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24">
-              <g
-                strokeLinejoin="round"
-                strokeLinecap="round"
-                strokeWidth="2.5"
-                fill="none"
-                stroke="currentColor">
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="m21 21-4.3-4.3"></path>
-              </g>
-            </svg>
-            <input
-              type="search"
-              placeholder="Search by name..."
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-            />
-          </label>
+          <ul className="dropdown-content menu bg-base-100 rounded-box z-10 w-52 p-2 shadow">
+            {items.map((it) => (
+              <li key={it.id}>
+                <a href="#!" className="hover:bg-gray-100">
+                  {it.label}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
+
+        <label className="input w-full md:w-80">
+          <input
+            type="search"
+            placeholder="Search scholarships..."
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+        </label>
       </div>
 
-      {searchText ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 place-items-center mt-10">
-            {filteredScholarships.map((book) => (
-            <ScholarshipCard key={book._id} book={book}></ScholarshipCard>
+      <div className="relative mt-10 max-w-7xl mx-auto px-6">
+        <button
+          className="swiper-prev btn-xl absolute left-0 top-1/2 -translate-y-1/2 z-20 
+                     bg-green-500 shadow-md rounded-full w-10 h-10 flex items-center justify-center 
+                     hover:bg-green-700 text-white transition">
+          <IoIosArrowBack />
+        </button>
+
+        <button
+          className="swiper-next absolute right-0 top-1/2 -translate-y-1/2 z-20 
+                     bg-green-500 shadow-md rounded-full w-10 h-10 flex items-center justify-center 
+                     hover:bg-green-700 text-white transition">
+          <IoIosArrowForward />
+        </button>
+
+        <Swiper
+          modules={[Pagination, Navigation]}
+          navigation={{
+            prevEl: ".swiper-prev",
+            nextEl: ".swiper-next",
+          }}
+          pagination={{ clickable: true }}
+          spaceBetween={40}
+          slidesPerView={3}
+          breakpoints={{
+            0: { slidesPerView: 1 },
+            640: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+          }}>
+          {filteredScholarships.map((book) => (
+            <SwiperSlide key={book._id} className="flex justify-center">
+              <CardAllScholarship book={book} />
+            </SwiperSlide>
           ))}
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 place-items-center mt-10">
-          {scholarships.map((book) => (
-            <ScholarshipCard key={book._id} book={book}></ScholarshipCard>
-          ))}
-        </div>
-      )}
+        </Swiper>
+
+        {filteredScholarships.length === 0 && (
+          <p className="text-center text-gray-500 mt-10">
+            No scholarships found
+          </p>
+        )}
+      </div>
     </div>
   );
 };
