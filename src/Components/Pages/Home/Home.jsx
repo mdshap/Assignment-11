@@ -6,8 +6,10 @@ import HomeReviews from "./HomeReviews";
 import ContactUs from "./ContactUs";
 
 const Home = () => {
+
   return (
     <div className="overflow-x-hidden">
+
 
       <motion.div
         initial={{ y: 60 }}

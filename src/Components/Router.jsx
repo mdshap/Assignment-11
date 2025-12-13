@@ -17,83 +17,98 @@ import ManageApplication from "./Pages/Dashboard/Moderator/ManageApplication";
 import ManageReview from "./Pages/Dashboard/Moderator/ManageReview";
 import MyApplications from "./Pages/Dashboard/Student/MyApplications";
 import MyReviews from "./Pages/Dashboard/Student/MyReviews";
+import PrivateRoute from "../../PrivateRoutes/PrivateRoute";
+import AdminPrivate from "../../PrivateRoutes/AdminPrivate";
 
 export const router = createBrowserRouter([
-{
-    path: '/',
+  {
+    path: "/",
     Component: Root,
     children: [
-        {
-            index: true,
-            Component:Home,
-        },
-        {
-            path: 'login',
-            Component: Login
-        },
-        {
-            path: 'register',
-            Component: Register
-        },
-        {
-            path: 'all-scholarships',
-            Component: AllScholarship,
-        },
-        {
-            path: 'details/:id',
-            Component: ScholarshipDetails
-        },
-        {
-            path: "*",
-            Component: Error404
-        }
-    ]
-},
+      {
+        index: true,
+        Component: Home,
+      },
+      {
+        path: "login",
+        Component: Login,
+      },
+      {
+        path: "register",
+        Component: Register,
+      },
+      {
+        path: "all-scholarships",
+        Component: AllScholarship,
+      },
+      {
+        path: "details/:id",
+        Component: ScholarshipDetails,
+      },
+      {
+        path: "*",
+        Component: Error404,
+      },
+    ],
+  },
 
-{
-    path: '/dashboard',
-    Component: Dashboard,
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
+    ),
+
     children: [
-        {
-            index: true,
-            Component: DashHome,
-        },
-        {
-            path:'profile',
-            Component: Profile
-        },
-        {
-            path: 'add-scholarship',
-            Component: AddScholarship
-        },
-        {
-            path: 'manage-scholarship',
-            Component: ManageScholarship
-        },
-        {
-            path: 'manage-users',
-            Component: ManageUsers
-        },
-        {
-            path: 'analytics',
-            Component: Analytics
-        },
-        {
-            path: 'manage-applications',
-            Component: ManageApplication
-        },
-        {
-            path: 'manage-reviews',
-            Component: ManageReview
-        },
-        {
-            path: 'my-applications',
-            Component: MyApplications
-        },
-        {
-            path:  'my-reviews',
-            Component: MyReviews
-        }
-    ]
-}
-])
+      {
+        index: true,
+        Component: DashHome,
+      },
+      {
+        path: "profile",
+        Component: Profile,
+      },
+      {
+        path: "add-scholarship",
+        element: (
+          <AdminPrivate>
+            <AddScholarship />
+          </AdminPrivate>
+        ),
+      },
+      {
+        path: "manage-scholarship",
+        Component: ManageScholarship,
+      },
+      {
+        path: "manage-users",
+        Component: ManageUsers,
+      },
+      {
+        path: "analytics",
+        Component: Analytics,
+      },
+      {
+        path: "manage-applications",
+        Component: ManageApplication,
+      },
+      {
+        path: "manage-reviews",
+        Component: ManageReview,
+      },
+      {
+        path: "my-applications",
+        Component: MyApplications,
+      },
+      {
+        path: "my-reviews",
+        Component: MyReviews,
+      },
+      {
+        path: "*",
+        Component: Error404,
+      },
+    ],
+  },
+]);
