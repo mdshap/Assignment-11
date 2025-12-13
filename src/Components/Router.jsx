@@ -49,6 +49,7 @@ export const router = createBrowserRouter([
         }
     ]
 },
+
 {
     path: '/dashboard',
     Component: Dashboard,
