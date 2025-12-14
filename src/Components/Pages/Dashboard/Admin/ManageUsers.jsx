@@ -7,22 +7,13 @@ const roles = ["User", "Moderator", "Admin"];
 
 const ManageUsers = () => {
   const [users, setUsers] = useState([]);
-  const [filterRole, setFilterRole] = useState("All");
   const [editingUser, setEditingUser] = useState(null);
-
 
   useEffect(() => {
     axiosProvider.get("/users").then((res) => {
       setUsers(res.data || []);
     });
   }, []);
-
-
-  let visibleUsers = users;
-  if (filterRole !== "All") {
-    visibleUsers = users.filter((u) => u.role === filterRole);
-  }
-
 
   const openEdit = (user) => {
     setEditingUser(user);
@@ -31,7 +22,6 @@ const ManageUsers = () => {
   const closeEdit = () => {
     setEditingUser(null);
   };
-
 
   const saveRole = async () => {
     await axiosProvider.patch(`/users/${editingUser.email}`, {
@@ -46,46 +36,28 @@ const ManageUsers = () => {
     });
 
     setUsers(updatedUsers);
-    toast.success('Changed Role Successfully')
+    toast.success("Changed Role Successfully");
     closeEdit();
   };
 
-
   const deleteUser = async (email) => {
-  try {
-    await axiosProvider.delete(`/users/${email}`);
+    try {
+      await axiosProvider.delete(`/users/${email}`);
 
-    const remainingUsers = users.filter((u) => u.email !== email);
-    setUsers(remainingUsers);
+      const remainingUsers = users.filter((u) => u.email !== email);
+      setUsers(remainingUsers);
 
-    toast.success("Successfully Deleted");
-  } catch (error) {
-    console.error(error);
-    toast.error("Failed to delete user");
-  }
-};
+      toast.success("Successfully Deleted");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to delete user");
+    }
+  };
 
   return (
     <div className="w-full max-w-7xl mx-auto bg-base-100 rounded-2xl p-4 shadow">
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
-        <h3 className="text-lg font-semibold">Manage Users</h3>
-
-        <div className="flex items-center gap-3 w-full md:w-auto">
-          <select
-            value={filterRole}
-            onChange={(e) => setFilterRole(e.target.value)}
-            className="select select-bordered select-sm bg-base-200"
-          >
-            <option>All</option>
-            <option>User</option>
-            <option>Moderator</option>
-            <option>Admin</option>
-          </select>
-
-          <div className="ml-auto md:ml-0 text-sm text-base-content/60">
-            Showing {visibleUsers.length} users
-          </div>
-        </div>
+      <div className=" md:hidden mb-4">
+        <h3 className="text-lg font-semibold text-center text-green-600">Manage Users</h3>
       </div>
 
       <div className="hidden md:block">
@@ -99,31 +71,31 @@ const ManageUsers = () => {
             </tr>
           </thead>
           <tbody>
-            {visibleUsers.length === 0 && (
+            {users.length === 0 && (
               <tr>
-                <td colSpan={4} className="text-center text-sm text-base-content/60 py-6">
+                <td
+                  colSpan={4}
+                  className="text-center text-sm text-base-content/60 py-6">
                   No users found
                 </td>
               </tr>
             )}
 
-            {visibleUsers.map((u) => (
+            {users.map((u) => (
               <tr key={u._id}>
                 <td className="font-medium text-pink-600">{u.name}</td>
                 <td>{u.email}</td>
                 <td className="text-green-600">{u.role}</td>
                 <td className="text-right">
-                  <div className="grid  lg:grid-cols-2 justify-end gap-2">
+                  <div className="grid lg:grid-cols-2 justify-end gap-2">
                     <button
                       onClick={() => openEdit(u)}
-                      className="btn btn-sm bg-green-500 hover:bg-green-600 text-white"
-                    >
+                      className="btn btn-sm bg-green-500 hover:bg-green-600 text-white">
                       <FaUserEdit /> <span className="ml-2">Change Role</span>
                     </button>
                     <button
                       onClick={() => deleteUser(u.email)}
-                      className="btn btn-sm bg-red-400 text-white hover:bg-red-200"
-                    >
+                      className="btn btn-sm bg-red-400 text-white hover:bg-red-200">
                       <FaTrash /> <span className="ml-2">Delete</span>
                     </button>
                   </div>
@@ -136,41 +108,42 @@ const ManageUsers = () => {
 
       {/* MOBILE */}
       <div className="md:hidden space-y-3">
-        {visibleUsers.length === 0 && (
+        {users.length === 0 && (
           <div className="text-sm text-base-content/60">No users found</div>
         )}
 
-        {visibleUsers.map((u) => (
+        {users.map((u) => (
           <div
             key={u._id}
-            className="p-3 rounded-lg bg-base-200 flex items-center justify-between"
-          >
-            <div className="r">
-              <div className="font-medium text-sm sm:text-md text-pink-600">{u.name}</div>
-              <div className="text-[12px] max-w-28 text-base-content/70">{u.email}</div>
+            className="p-3 rounded-lg bg-base-200 flex items-center justify-between">
+            <div>
+              <div className="font-medium text-sm sm:text-md text-pink-600">
+                {u.name}
+              </div>
+              <div className="text-[12px] max-w-28 text-base-content/70">
+                {u.email}
+              </div>
               <div className="text-xs mt-1">
-                Role: <span className="font-medium text-green-600">{u.role}</span>
+                Role:{" "}
+                <span className="font-medium text-green-600">{u.role}</span>
               </div>
             </div>
 
             <div className="grid gap-2">
               <button
                 onClick={() => openEdit(u)}
-                className="px-3 py-1 rounded bg-green-500 text-white text-sm flex items-center gap-2"
-              >
-                <FaUserEdit /> <p className="hidden sm:block">Change</p> 
+                className="px-3 py-1 rounded bg-green-500 text-white text-sm flex items-center gap-2">
+                <FaUserEdit /> <p className="hidden sm:block">Change</p>
               </button>
               <button
                 onClick={() => deleteUser(u.email)}
-                className="px-3 py-1 rounded bg-red-400 text-white text-sm flex items-center gap-1"
-              >
+                className="px-3 py-1 rounded bg-red-400 text-white text-sm flex items-center gap-1">
                 <FaTrash /> <p className="hidden sm:block">Delete</p>
               </button>
             </div>
           </div>
         ))}
       </div>
-
 
       {editingUser && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -192,8 +165,7 @@ const ManageUsers = () => {
                     role: e.target.value,
                   })
                 }
-                className="w-full px-3 py-2 rounded border bg-base-200"
-              >
+                className="w-full px-3 py-2 rounded border bg-base-200">
                 {roles.map((r) => (
                   <option key={r} value={r}>
                     {r}
@@ -203,10 +175,14 @@ const ManageUsers = () => {
             </div>
 
             <div className="mt-4 flex items-center justify-end gap-3">
-              <button onClick={closeEdit} className="px-3 py-2 rounded bg-base-200">
+              <button
+                onClick={closeEdit}
+                className="px-3 py-2 rounded bg-base-200">
                 Cancel
               </button>
-              <button onClick={saveRole} className="px-3 py-2 rounded bg-green-500 text-white">
+              <button
+                onClick={saveRole}
+                className="px-3 py-2 rounded bg-green-500 text-white">
                 Save
               </button>
             </div>
