@@ -154,8 +154,10 @@ const ManageScholarships = () => {
             /></div>
             
               <div className="font-medium text-[12px] sm:text-md"><p>{s.scholarshipName}</p> <p className="text-sm font-normal text-gray-500 sm:text-center text-[10px]">{s.subjectCategory}</p></div>
-              <div className="text-sm border min-w-20 text-base-content/70">
-                <p className="text-green-600 text-[8px] text-center">{s.universityName}</p> <p className="text-blue-500 text-[10px] text-center">{s.universityCountry} </p> <p className=" text-center text-[10px]">{s.degree}</p>
+              <div className="text-sm  min-w-20 text-base-content/70">
+                <p className="text-green-600 text-[8px] text-center">{s.universityName}</p> <p className="text-[10px] text-center">{s.universityCountry} </p> 
+                <div className="flex justify-center items-center mt-2"><p className=" text-center text-[8px] bg-blue-500 text-white rounded-xl w-13">{s.degree}</p>
+                </div>
               </div>
              </div>
 
