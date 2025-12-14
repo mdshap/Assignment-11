@@ -21,7 +21,7 @@ const cardAnimation = {
   },
 };
 
-const ScholarshipCard = ({ book }) => {
+const ScholarshipCard = ({ scholarship }) => {
   return (
     <motion.article
       variants={cardAnimation}
@@ -32,29 +32,35 @@ const ScholarshipCard = ({ book }) => {
     >
       <div
         className="h-140 bg-center bg-cover"
-        style={{ backgroundImage: `url(${book?.coverImage})` }}
+        style={{ backgroundImage: `url(${scholarship?.universityImage})` }}
       />
 
       <div className="p-4">
         <h3 className="text-xl flex gap-1 items-center font-semibold text-black line-clamp-2 min-h-12">
           <MdLocationCity className="text-green-700" />
-          <span className="font-semibold">{book.title}</span>
+          <span className="font-semibold">
+            <p>{scholarship?.scholarshipName}</p>
+            </span>
+          
         </h3>
 
-        <p className="mt-1 flex items-center gap-1 text-sm text-gray-500">
-          <FaLocationArrow /> <span>Location</span>
+<div className="flex mt-2 items-center justify-between">
+        <p className="flex items-center gap-1 text-sm text-gray-500">
+          <FaLocationArrow /> <p className="text-[12px] text-gray-500">{scholarship?.universityCity}, {scholarship.universityCountry}</p>  
         </p>
+        <p className="text-[12px] text-red-500">{scholarship?.universityName}</p>
+        </div>
 
         <div className="mt-3 mx-2 flex items-center justify-between">
-          <div className="text-blue-500 text-xl font-semibold">$500</div>
+          <div className="text-blue-500 text-xl font-semibold">${scholarship?.applicationFees}</div>
           <div className="text-sm px-2 py-1 rounded-xl bg-yellow-300 font-medium text-green-900">
-            Category
+            {scholarship?.subjectCategory}
           </div>
         </div>
 
         <div className="mt-4 flex gap-3">
           <Link
-            to={`/details/${book?._id}`}
+            to={`/details/${scholarship?._id}`}
             className="flex-1 inline-flex items-center justify-center rounded-md px-3 py-2 text-sm font-medium bg-green-500 text-white hover:bg-indigo-700 transition"
           >
             Details

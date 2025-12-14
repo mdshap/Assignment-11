@@ -6,14 +6,13 @@ import { Navigate } from "react-router";
 const AdminPrivate = ({ children }) => {
   const { userFromDb, dbLoading } = use(AuthContext);
 
-
-  if (dbLoading) {
+  if (dbLoading)
     return <Loader />;
-  } else if (userFromDb?.role !== "Admin") {
+
+  else if (userFromDb?.role !== "Admin")
     return <Navigate to="/dashboard" replace />;
-  } else {
-    return children;
-  }
+
+  else return children;
 };
 
 export default AdminPrivate;

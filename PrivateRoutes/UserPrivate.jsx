@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { use } from 'react';
+import { AuthContext } from '../src/Authentication/AuthContext';
+import Loader from '../src/Components/Pages/Loader/Loader';
+import { Navigate } from 'react-router';
 
-const UserPrivate = () => {
-    return (
-        <div>
-            
-        </div>
-    );
+const UserPrivate = ({children}) => {
+      const { userFromDb, dbLoading } = use(AuthContext);
+
+  if (dbLoading)
+    return <Loader />;
+
+  else if (userFromDb?.role !== "User")
+    return <Navigate to="/dashboard" replace />;
+
+  else return children;
 };
 
 export default UserPrivate;

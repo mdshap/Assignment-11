@@ -19,6 +19,8 @@ import MyApplications from "./Pages/Dashboard/Student/MyApplications";
 import MyReviews from "./Pages/Dashboard/Student/MyReviews";
 import PrivateRoute from "../../PrivateRoutes/PrivateRoute";
 import AdminPrivate from "../../PrivateRoutes/AdminPrivate";
+import ModeratorPrivate from "../../PrivateRoutes/ModeratorPrivate";
+import UserPrivate from "../../PrivateRoutes/UserPrivate";
 
 export const router = createBrowserRouter([
   {
@@ -79,31 +81,59 @@ export const router = createBrowserRouter([
       },
       {
         path: "manage-scholarship",
-        Component: ManageScholarship,
+        element: (
+          <AdminPrivate>
+            <ManageScholarship />
+          </AdminPrivate>
+        ),
       },
       {
         path: "manage-users",
-        Component: ManageUsers,
+        element: (
+          <AdminPrivate>
+            <ManageUsers />
+          </AdminPrivate>
+        ),
       },
       {
         path: "analytics",
-        Component: Analytics,
+        element: (
+          <AdminPrivate>
+            <Analytics />
+          </AdminPrivate>
+        ),
       },
       {
         path: "manage-applications",
-        Component: ManageApplication,
+        element: (
+          <ModeratorPrivate>
+            <ManageApplication />
+          </ModeratorPrivate>
+        ),
       },
       {
         path: "manage-reviews",
-        Component: ManageReview,
+        element: (
+          <ModeratorPrivate>
+            <ManageReview />
+          </ModeratorPrivate>
+        ),
       },
       {
         path: "my-applications",
-        Component: MyApplications,
+        element: (
+          <UserPrivate>
+            <MyApplications />
+          </UserPrivate>
+        ),
       },
       {
         path: "my-reviews",
-        Component: MyReviews,
+        element: (
+          <UserPrivate>
+            <MyReviews />
+          </UserPrivate>
+        ),
       },
       {
         path: "*",

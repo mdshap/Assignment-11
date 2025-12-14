@@ -3,9 +3,10 @@ import DashSidebar from "../Pages/Dashboard/DashSidebar";
 import { Outlet } from "react-router";
 import { AuthContext } from "../../Authentication/AuthContext";
 import Loader from "../Pages/Loader/Loader";
+import ReactToaster from "../../ReactToaster/ReactToaster";
 
 const Dashboard = () => {
-    
+
   const { loading } = use(AuthContext);
 
   if (loading) {
@@ -15,6 +16,7 @@ const Dashboard = () => {
   return (
     <div data-theme="light" className="flex max-w-[1440px] mx-auto">
       <DashSidebar />
+      <ReactToaster/>
       <Outlet />
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { BsFillMenuButtonWideFill } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import { IoIosAddCircleOutline } from "react-icons/io";
@@ -10,9 +10,14 @@ import { Link, NavLink } from "react-router";
 import AdminSidebar from "./Admin/AdminSidebar";
 import ModeratorSidebar from "./Moderator/ModeratorSidebar";
 import UserSidebar from "./Student/UserSidebar";
+import { AuthContext } from "../../../Authentication/AuthContext";
 
 const DashSidebar = () => {
-  const role = "user";
+  const { userFromDb } = use(AuthContext)
+  const role = userFromDb?.role;
+  console.log(role);
+  
+
   const [collapsed, setCollapsed] = useState(true);
 
   useEffect(() => {
@@ -25,7 +30,6 @@ const DashSidebar = () => {
     mq.addEventListener?.("change", handle);
     return () => mq.removeEventListener?.("change", handle);
   }, []);
-
   const sidebarWidthClass = collapsed ? "w-14" : "w-51";
 
   return (
@@ -87,11 +91,11 @@ const DashSidebar = () => {
             </li>
 
             <hr className="text-gray-400 font-extrabold mt-7 mb-3" />
-            {role === "admin" ? (
+            {role === "Admin" ? (
               <AdminSidebar collapsed={collapsed} />
-            ) : role === "moderator" ? (
+            ) : role === "Moderator" ? (
               <ModeratorSidebar collapsed={collapsed} />
-            ) : role === "user" ? (
+            ) : role === "User" ? (
               <UserSidebar collapsed={collapsed} />
             ) : (
               ""

@@ -7,18 +7,18 @@ import ScholarshipCard from "./ScholarshipCard";
 
 const BestScholarships = () => {
 
-  const [books, setBooks] = useState([]);
-  const [booksLoading, setBooksLoading] = useState(true)
+  const [scholarships, setScholarships] = useState([]);
+  const [scholarshipsLoading, setScholarshipsLoading] = useState(true)
   const [showAll, setShowAll] = useState(false);
 
   const {loading } =use(AuthContext)
 
   useEffect(() => {
     axios
-      .get(`https://assignment-10-serverside-gyny.onrender.com/${showAll ? "books" : "popular-books"}`)
+      .get(`/public/JSONS/universities.json`)
       .then((res) => {
-        setBooks(res.data);
-        setBooksLoading(false)
+        setScholarships(res.data);
+        setScholarshipsLoading(false)
         
       })
       .catch((error) => {
@@ -31,7 +31,7 @@ const BestScholarships = () => {
     setShowAll(!showAll)
   }
 
-  if(loading || booksLoading){
+  if(loading || scholarshipsLoading){
     return(
       <Loader></Loader>
     )
@@ -41,8 +41,8 @@ const BestScholarships = () => {
     <div>
 
       <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 place-items-center">
-        {books.map((book) => (
-          <ScholarshipCard key={book._id} book={book}></ScholarshipCard>
+        {scholarships.map((scholarship) => (
+          <ScholarshipCard  scholarship={scholarship}></ScholarshipCard>
         ))}
       </div>
       

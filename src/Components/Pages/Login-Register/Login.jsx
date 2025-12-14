@@ -13,7 +13,11 @@ const Login = () => {
 
   const handleGoogleSignIn = () => {
     signInWithGoogle()
-      .then((res) => res.json())
+      .then((result) => {
+        console.log("Google user:", result.user);
+        toast.success("Successfully Logged in!");
+      })
+
       .catch(() => setRegisterLoading(false))
       .catch(() => setRegisterLoading(false));
   };
@@ -179,7 +183,10 @@ const Login = () => {
             Apply using <span className="text-green-500">Scholar Stream</span>
           </h1>
           <p className="mt-4 text-md md:text-lg text-white/90 max-w-xl">
-            Your academic journey deserves the best support. Discover top university scholarships, organize deadlines, and receive tailored guidance. Join Scholar Stream today for smarter, easier scholarship management.
+            Your academic journey deserves the best support. Discover top
+            university scholarships, organize deadlines, and receive tailored
+            guidance. Join Scholar Stream today for smarter, easier scholarship
+            management.
           </p>
         </div>
       </div>

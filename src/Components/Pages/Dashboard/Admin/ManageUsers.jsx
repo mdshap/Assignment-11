@@ -1,55 +1,59 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaTrash, FaUserEdit } from "react-icons/fa";
+import axiosProvider from "../../../../API/axiosProvider";
+import toast from "react-hot-toast";
 
+const roles = ["User", "Moderator", "Admin"];
 
-const ManageUsers = ({ initial = [], onChange = () => {} }) =>{
-
-  const defaultUsers = initial.length
-    ? initial
-    : [
-        { id: "u1", name: "Aisha Rahman", email: "aisha@example.com", role: "Admin" },
-        { id: "u2", name: "Rafi Ahmed", email: "rafi@example.com", role: "Moderator" },
-        { id: "u3", name: "Sadia Khan", email: "sadia@example.com", role: "Student" },
-        { id: "u4", name: "Tariq Ali", email: "tariq@example.com", role: "Student" },
-      ];
-
-  const [users, setUsers] = useState(defaultUsers);
+const ManageUsers = () => {
+  const [users, setUsers] = useState([]);
   const [filterRole, setFilterRole] = useState("All");
-  const [editing, setEditing] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [editingUser, setEditingUser] = useState(null);
 
-  const roles = ["Student", "Moderator", "Admin"];
+  // FETCH USERS
+  useEffect(() => {
+    axiosProvider.get("/users").then((res) => {
+      setUsers(res.data || []);
+    });
+  }, []);
 
-  const visible = users.filter((u) => (filterRole === "All" ? true : u.role === filterRole));
-
-  const openEdit = (u) => {
-    setSelectedUser({ ...u });
-    setEditing(true);
+  // FILTER USERS (simple & readable)
+  let visibleUsers = users;
+  if (filterRole !== "All") {
+    visibleUsers = users.filter((u) => u.role === filterRole);
   }
+
+  // OPEN / CLOSE MODAL
+  const openEdit = (user) => {
+    setEditingUser(user);
+  };
 
   const closeEdit = () => {
-    setSelectedUser(null);
-    setEditing(false);
-  }
+    setEditingUser(null);
+  };
 
-  const saveRole = () => {
-    if (!selectedUser) return;
-    setUsers((prev) =>  {
-      const next = prev.map((p) => (p.id === selectedUser.id ? selectedUser : p));
-      onChange(next);
-      return next;
+  // PATCH ROLE
+  const saveRole = async () => {
+    await axiosProvider.patch(`/users/${editingUser.email}`, {
+      role: editingUser.role,
     });
+
+    const updatedUsers = users.map((u) => {
+      if (u.email === editingUser.email) {
+        return { ...u, role: editingUser.role };
+      }
+      return u;
+    });
+
+    setUsers(updatedUsers);
+    toast.success('Changed Role Successfully')
     closeEdit();
-  }
+  };
 
-  const deleteUser = (id) => {
-    if (!confirm("Delete this user? This action cannot be undone.")) return;
-    setUsers((prev) => {
-      const next = prev.filter((p) => p.id !== id);
-      onChange(next);
-      return next;
-    });
-  }
+  // DELETE PLACEHOLDER (you can add API later)
+  const deleteUser = (email) => {
+    console.log("Delete user:", email);
+  };
 
   return (
     <div className="w-full max-w-7xl mx-auto bg-base-100 rounded-2xl p-4 shadow">
@@ -57,17 +61,24 @@ const ManageUsers = ({ initial = [], onChange = () => {} }) =>{
         <h3 className="text-lg font-semibold">Manage Users</h3>
 
         <div className="flex items-center gap-3 w-full md:w-auto">
-          <select value={filterRole} onChange={(e) => setFilterRole(e.target.value)} className="select select-bordered select-sm bg-base-200">
+          <select
+            value={filterRole}
+            onChange={(e) => setFilterRole(e.target.value)}
+            className="select select-bordered select-sm bg-base-200"
+          >
             <option>All</option>
-            <option>Student</option>
+            <option>User</option>
             <option>Moderator</option>
             <option>Admin</option>
           </select>
-          <div className="ml-auto md:ml-0 text-sm text-base-content/60">Showing {visible.length} users</div>
+
+          <div className="ml-auto md:ml-0 text-sm text-base-content/60">
+            Showing {visibleUsers.length} users
+          </div>
         </div>
       </div>
 
-
+      {/* DESKTOP TABLE */}
       <div className="hidden md:block">
         <table className="table w-full">
           <thead>
@@ -79,25 +90,31 @@ const ManageUsers = ({ initial = [], onChange = () => {} }) =>{
             </tr>
           </thead>
           <tbody>
-            {visible.length === 0 && (
+            {visibleUsers.length === 0 && (
               <tr>
-                <td colSpan={4} className="text-center text-sm text-base-content/60 py-6">No users found</td>
+                <td colSpan={4} className="text-center text-sm text-base-content/60 py-6">
+                  No users found
+                </td>
               </tr>
             )}
 
-            {visible.map((u) => (
-              <tr key={u.id}>
-                <td>
-                  <div className="font-medium text-pink-600">{u.name}</div>
-                </td>
+            {visibleUsers.map((u) => (
+              <tr key={u._id}>
+                <td className="font-medium text-pink-600">{u.name}</td>
                 <td>{u.email}</td>
                 <td className="text-green-600">{u.role}</td>
                 <td className="text-right">
                   <div className="flex items-center justify-end gap-2">
-                    <button onClick={() => openEdit(u)} className="btn btn-sm bg-green-500 hover:bg-green-600 text-white">
+                    <button
+                      onClick={() => openEdit(u)}
+                      className="btn btn-sm bg-green-500 hover:bg-green-600 text-white"
+                    >
                       <FaUserEdit /> <span className="ml-2">Change Role</span>
                     </button>
-                    <button onClick={() => deleteUser(u.id)} className="btn btn-sm bg-red-400 text-white hover:bg-red-200">
+                    <button
+                      onClick={() => deleteUser(u.email)}
+                      className="btn btn-sm bg-red-400 text-white hover:bg-red-200"
+                    >
                       <FaTrash /> <span className="ml-2">Delete</span>
                     </button>
                   </div>
@@ -108,53 +125,87 @@ const ManageUsers = ({ initial = [], onChange = () => {} }) =>{
         </table>
       </div>
 
- {/* Mobile Device */}
+      {/* MOBILE VIEW */}
       <div className="md:hidden space-y-3">
-        {visible.length === 0 && <div className="text-sm text-base-content/60">No users found</div>}
-        {visible.map((u) => (
-          <div key={u.id} className="p-3 rounded-lg bg-base-200 flex items-center justify-between">
+        {visibleUsers.length === 0 && (
+          <div className="text-sm text-base-content/60">No users found</div>
+        )}
+
+        {visibleUsers.map((u) => (
+          <div
+            key={u._id}
+            className="p-3 rounded-lg bg-base-200 flex items-center justify-between"
+          >
             <div>
               <div className="font-medium text-pink-600">{u.name}</div>
               <div className="text-sm text-base-content/70">{u.email}</div>
-              <div className="text-xs mt-1">Role: <span className="font-medium text-green-600">{u.role}</span></div>
+              <div className="text-xs mt-1">
+                Role: <span className="font-medium text-green-600">{u.role}</span>
+              </div>
             </div>
-            <div className="grid items-end gap-2">
-              <button onClick={() => openEdit(u)} className="px-3 py-1 rounded bg-green-500 text-white text-sm flex items-center gap-2"> <FaUserEdit /> <span className="hidden sm:block">Change Role</span></button>
-              <button onClick={() => deleteUser(u.id)} className="px-3 py-1 flex items-center gap-1 justify-center rounded bg-red-400 text-white text-sm"> <FaTrash />  <p className="hidden sm:block">Delete</p></button>
+
+            <div className="grid gap-2">
+              <button
+                onClick={() => openEdit(u)}
+                className="px-3 py-1 rounded bg-green-500 text-white text-sm flex items-center gap-2"
+              >
+                <FaUserEdit /> Change
+              </button>
+              <button
+                onClick={() => deleteUser(u.email)}
+                className="px-3 py-1 rounded bg-red-400 text-white text-sm flex items-center gap-1"
+              >
+                <FaTrash /> Delete
+              </button>
             </div>
           </div>
         ))}
       </div>
 
-
-      {editing && selectedUser && (
+      {/* EDIT MODAL */}
+      {editingUser && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/40" onClick={closeEdit} />
 
           <div className="relative w-full max-w-md bg-base-100 p-4 rounded-2xl shadow">
-            <h4 className="text-lg font-semibold mb-3"> Change Role</h4>
+            <h4 className="text-lg font-semibold mb-3">Change Role</h4>
 
             <div>
               <label className="text-sm text-base-content/70">User</label>
-              <div className="font-medium mb-2">{selectedUser.name}</div>
+              <div className="font-medium mb-2">{editingUser.name}</div>
 
               <label className="text-sm text-base-content/70">Role</label>
-              <select value={selectedUser.role} onChange={(e) => setSelectedUser((p) => ({ ...p, role: e.target.value }))} className="w-full px-3 py-2 rounded border bg-base-200">
+              <select
+                value={editingUser.role}
+                onChange={(e) =>
+                  setEditingUser({
+                    ...editingUser,
+                    role: e.target.value,
+                  })
+                }
+                className="w-full px-3 py-2 rounded border bg-base-200"
+              >
                 {roles.map((r) => (
-                  <option key={r} value={r}>{r}</option>
+                  <option key={r} value={r}>
+                    {r}
+                  </option>
                 ))}
               </select>
             </div>
 
             <div className="mt-4 flex items-center justify-end gap-3">
-              <button onClick={closeEdit} className="px-3 py-2 rounded bg-base-200">Cancel</button>
-              <button onClick={saveRole} className="px-3 py-2 rounded bg-green-500 text-white">Save</button>
+              <button onClick={closeEdit} className="px-3 py-2 rounded bg-base-200">
+                Cancel
+              </button>
+              <button onClick={saveRole} className="px-3 py-2 rounded bg-green-500 text-white">
+                Save
+              </button>
             </div>
           </div>
         </div>
       )}
     </div>
   );
-}
+};
 
 export default ManageUsers;
