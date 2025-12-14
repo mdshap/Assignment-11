@@ -18,7 +18,7 @@ const DashHome = () => {
       : "Track your applications and explore opportunities";
 
   return (
-    <div className="min-h-[70vh] mx-auto flex items-center justify-center px-4">
+    <div className="min-h-[70vh] mx-auto flex items-center justify-center px-4 ">
       <div className="text-center max-w-xl w-full bg-base-100 rounded-2xl shadow-lg p-8 border border-base-300">
 
         <h1 className="text-3xl md:text-4xl font-bold mb-3">

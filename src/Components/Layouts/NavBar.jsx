@@ -86,8 +86,8 @@ const Navbar = () => {
 
   return (
     <div className="">
-      <div className="navbar min-h-20 sm:min-h-0 bg-base-100 max-w-[1600px] mx-auto shadow-sm">
-        <div className="navbar-start px-2 sm:px-6 ">
+      <div className="navbar bg-linear-to-br to-green-200 min-h-20 sm:min-h-0 bg-base-100 max-w-[1600px] mx-auto shadow-sm">
+        <div className="navbar-start px-2 sm:px-6 z-40">
           <div className="dropdown">
             <div
               tabIndex={0}
@@ -143,7 +143,7 @@ const Navbar = () => {
                 </div>
                 <ul
                   tabIndex="-1"
-                  className="dropdown-content menu bg-base-100 rounded-box z-1 w-45 md:w-55 border p-2 shadow-sm">
+                  className="dropdown-content menu bg-base-100 rounded-box  w-45 md:w-55 border p-2 z-40 shadow-sm ">
                   <li>
                     <a>
                       {" "}

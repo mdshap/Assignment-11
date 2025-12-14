@@ -1,9 +1,9 @@
 import React, { use, useEffect, useState } from "react";
 import { Link } from "react-router";
-import axios from "axios";
 import { AuthContext } from "../../../Authentication/AuthContext";
 import Loader from "../Loader/Loader";
 import ScholarshipCard from "./ScholarshipCard";
+import axiosProvider from "../../../API/axiosProvider";
 
 const BestScholarships = () => {
 
@@ -14,8 +14,7 @@ const BestScholarships = () => {
   const {loading } =use(AuthContext)
 
   useEffect(() => {
-    axios
-      .get(`/public/JSONS/universities.json`)
+    axiosProvider.get('/scholarships')
       .then((res) => {
         setScholarships(res.data);
         setScholarshipsLoading(false)

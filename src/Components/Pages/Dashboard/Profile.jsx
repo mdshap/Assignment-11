@@ -10,9 +10,9 @@ const Profile = () => {
 
 
   return (
-    <div className="min-h-screen  flex mx-auto items-center  p-2 sm:p-6">
-    <div className="">
-      <div className=" max-w-[700px] min-w-[310px] sm:min-w-[500px] md:min-w-[700px] backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/10  w-full">
+    <div className="min-h-screen   flex mx-auto items-center  p-2 sm:p-6">
+    <div className="bg-base-100">
+      <div className=" max-w-[700px] min-w-[300px] sm:min-w-[550px] md:min-w-[520px] lg:min-w-[700px] backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/10  w-full">
         <div className="flex flex-col items-center gap-6">
 
           <div className="flex items-center flex-col md:flex-row gap-10 ">

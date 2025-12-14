@@ -1,60 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import axiosProvider from "../../../../API/axiosProvider";
 
-const ManageScholarships = ({
-  initial = [],
-  onChange = () => {},
-}) => {
+const ManageScholarships = () => {
 
-  const dummy = [
-    {
-      id: "sch1",
-      name: "Global Excellence Scholarship",
-      university: "Harvard University",
-      country: "USA",
-      city: "Cambridge",
-      degree: "Bachelors",
-      subjectCategory: "Computer Science",
-      scholarshipCategory: "Full Funded",
-      applicationFees: "50",
-      serviceCharge: "100",
-      deadline: "2025-02-10",
-      image: "https://via.placeholder.com/120x80"
-    },
-    {
-      id: "sch2",
-      name: "International Merit Award",
-      university: "University of Toronto",
-      country: "Canada",
-      city: "Toronto",
-      degree: "Masters",
-      subjectCategory: "Engineering",
-      scholarshipCategory: "Semi Funded",
-      applicationFees: "0",
-      serviceCharge: "120",
-      deadline: "2025-01-20",
-      image: "https://via.placeholder.com/120x80"
-    },
-    {
-      id: "sch3",
-      name: "Asian Scholars Grant",
-      university: "University of Tokyo",
-      country: "Japan",
-      city: "Tokyo",
-      degree: "PhD",
-      subjectCategory: "Physics",
-      scholarshipCategory: "Full Funded",
-      applicationFees: "30",
-      serviceCharge: "90",
-      deadline: "2025-03-15",
-      image: "https://via.placeholder.com/120x80"
-    }
-  ];
 
-  const [list, setList] = useState(initial.length ? initial : dummy);
+
+  const [list, setList] = useState([]);
   const [editing, setEditing] = useState(false);
   const [editingSch, setEditingSch] = useState(null);
   const [search, setSearch] = useState("");
+
+    useEffect(() => {
+    axiosProvider.get("/scholarships").then((res) => {
+      setList(res.data || []);
+    });
+  }, []);
 
   const filtered = list.filter((s) => {
     const q = search.trim().toLowerCase();
@@ -83,7 +44,6 @@ const ManageScholarships = ({
       const next = prev.map((p) =>
         p.id === editingSch.id ? editingSch : p
       );
-      onChange(next);
       return next;
     });
 
@@ -95,7 +55,6 @@ const ManageScholarships = ({
     if (!ok) return;
     setList((prev) => {
       const next = prev.filter((p) => p.id !== id);
-      onChange(next);
       return next;
     });
   };
@@ -142,18 +101,18 @@ const ManageScholarships = ({
               <tr key={s.id} className="align-top">
                 <td className="w-24">
                   <img
-                    src={s.image || "https://via.placeholder.com/120x80"}
-                    alt={s.name}
+                    src={s.universityImage || "https://via.placeholder.com/120x80"}
+                    alt={s.universityName}
                     className="w-24 h-16 object-cover rounded"
                   />
                 </td>
-                <td>
-                  <div className="font-medium">{s.name}</div>
+                <td className="text-center" >
+                  <div className="font-medium">{s.scholarshipName}</div>
                   <div className="text-sm text-base-content/60">{s.subjectCategory}</div>
                 </td>
-                <td><p className="text-center">{s.university}</p> <p className="text-center">{s.country}</p></td>
+                <td><p className="text-center text-green-600">{s.universityName}</p> <p className="text-center text-blue-500">{s.universityCountry}</p></td>
                 <td className="">{s.degree}</td>
-                <td>{s.deadline || "-"}</td>
+                <td>{s.applicationDeadline || "-"}</td>
                 <td className="text-right">
                   <div className="grid justify-end gap-2">
                     <button
@@ -176,7 +135,7 @@ const ManageScholarships = ({
         </table>
       </div>
 
-      {/* Mobile cards */}
+      {/* MOBILE */}
       <div className="lg:hidden space-y-3">
         {filtered.length === 0 && (
           <div className="text-sm text-base-content/60">No scholarships found</div>
@@ -186,17 +145,17 @@ const ManageScholarships = ({
           <div className="flex gap-3 p-2 rounded-lg bg-base-200 justify-between">
           <div
             key={s.id}
-            className=" w-full flex justify-between gap-3"
+            className=" w-full flex justify-around items-center gap-3"
           >
             <div><img
-              src={s.image || "https://via.placeholder.com/80x50"}
-              alt={s.name}
+              src={s.universityImage || "https://via.placeholder.com/80x50"}
+              alt={s.universityName}
               className="w-20 h-12 object-cover rounded"
             /></div>
             
-              <div className="font-medium text-sm sm:text-md"><p>{s.name}</p> <p className="text-sm font-normal text-gray-500 sm:text-center">{s.subjectCategory}</p></div>
-              <div className="text-sm text-base-content/70">
-                <p className="text-green-600 text-center">{s.university}</p> <p className="text-blue-500 text-center">{s.country} </p> <p className=" text-center">{s.degree}</p>
+              <div className="font-medium text-[12px] sm:text-md"><p>{s.scholarshipName}</p> <p className="text-sm font-normal text-gray-500 sm:text-center text-[10px]">{s.subjectCategory}</p></div>
+              <div className="text-sm border min-w-20 text-base-content/70">
+                <p className="text-green-600 text-[8px] text-center">{s.universityName}</p> <p className="text-blue-500 text-[10px] text-center">{s.universityCountry} </p> <p className=" text-center text-[10px]">{s.degree}</p>
               </div>
              </div>
 
@@ -234,9 +193,9 @@ const ManageScholarships = ({
               <div>
                 <label className="text-sm text-base-content/70">Name</label>
                 <input
-                  value={editingSch.name}
+                  value={editingSch.scholarshipName}
                   onChange={(e) =>
-                    setEditingSch((p) => ({ ...p, name: e.target.value }))
+                    setEditingSch((p) => ({ ...p, scholarshipName: e.target.value }))
                   }
                   className="w-full px-3 py-2 rounded border bg-base-200"
                 />
@@ -245,9 +204,9 @@ const ManageScholarships = ({
               <div>
                 <label className="text-sm text-base-content/70">University</label>
                 <input
-                  value={editingSch.university}
+                  value={editingSch.universityName}
                   onChange={(e) =>
-                    setEditingSch((p) => ({ ...p, university: e.target.value }))
+                    setEditingSch((p) => ({ ...p, universityName: e.target.value }))
                   }
                   className="w-full px-3 py-2 rounded border bg-base-200"
                 />
@@ -256,9 +215,9 @@ const ManageScholarships = ({
               <div>
                 <label className="text-sm text-base-content/70">Country</label>
                 <input
-                  value={editingSch.country}
+                  value={editingSch.universityCountry}
                   onChange={(e) =>
-                    setEditingSch((p) => ({ ...p, country: e.target.value }))
+                    setEditingSch((p) => ({ ...p, universityCountry: e.target.value }))
                   }
                   className="w-full px-3 py-2 rounded border bg-base-200"
                 />
@@ -267,9 +226,9 @@ const ManageScholarships = ({
               <div>  
                 <label className="text-sm text-base-content/70">City</label>
                 <input
-                  value={editingSch.city}
+                  value={editingSch.universityCity}
                   onChange={(e) =>
-                    setEditingSch((p) => ({ ...p, city: e.target.value }))
+                    setEditingSch((p) => ({ ...p, universityCity: e.target.value }))
                   }
                   className="w-full px-3 py-2 rounded border bg-base-200"
                 />
@@ -295,9 +254,9 @@ const ManageScholarships = ({
                 <label className="text-sm text-base-content/70">Deadline</label>
                 <input
                   type="date"
-                  value={editingSch.deadline}
+                  value={editingSch.applicationDeadline}
                   onChange={(e) =>
-                    setEditingSch((p) => ({ ...p, deadline: e.target.value }))
+                    setEditingSch((p) => ({ ...p, applicationDeadline: e.target.value }))
                   }
                   className="w-full px-3 py-2 rounded border bg-base-200"
                 />
@@ -332,10 +291,10 @@ const ManageScholarships = ({
                   className="w-full px-3 py-2 rounded border bg-base-200"
                 >
                   <option value="">Select</option>
-                  <option>Full Funded</option>
-                  <option>Semi Funded</option>
-                  <option>Merit-based</option>
-                  <option>Need-based</option>
+                  <option>Full Funde</option>
+                  <option>Partial</option>
+                  <option>Self Fund</option>
+                  <option></option>
                 </select>
               </div>
 

@@ -28,12 +28,16 @@ const ScholarshipCard = ({ scholarship }) => {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: false, margin: "-80px" }}
-      className="w-full max-w-[350px] bg-white rounded-xl shadow-md overflow-hidden transform transition hover:-translate-y-1 hover:shadow-xl"
+      className="w-full max-w-[350px] bg-white rounded-xl shadow-md overflow-hidden transform transition hover:-translate-y-1 hover:shadow-xl relative"
     >
       <div
-        className="h-140 bg-center bg-cover"
+        className="h-60 bg-center bg-cover"
         style={{ backgroundImage: `url(${scholarship?.universityImage})` }}
       />
+
+      <p className="bg-blue-500 rounded-xl -mt-8 ml-62 text-white px-3 text-center text-sm absolute">{scholarship.degree}</p>
+
+
 
       <div className="p-4">
         <h3 className="text-xl flex gap-1 items-center font-semibold text-black line-clamp-2 min-h-12">
@@ -41,7 +45,6 @@ const ScholarshipCard = ({ scholarship }) => {
           <span className="font-semibold">
             <p>{scholarship?.scholarshipName}</p>
             </span>
-          
         </h3>
 
 <div className="flex mt-2 items-center justify-between">

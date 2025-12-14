@@ -13,7 +13,7 @@ const Root = () => {
     return <Loader/>;
   }
   return (
-    <div data-theme="light" className="max-w-[1600px] mx-auto">
+    <div data-theme="light" className="max-w-[1600px] mx-auto bg-green-50">
 
       <NavBar></NavBar>
       <ReactToaster />

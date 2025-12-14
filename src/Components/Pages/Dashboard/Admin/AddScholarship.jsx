@@ -55,8 +55,7 @@ const AddScholarship = () => {
     const scholarshipInfo = {
       scholarshipName: e.target.scholarshipName.value,
       universityName: e.target.universityName.value,
-      // universityImage: imageUrl,
-      universityImage: e.target.image.value,
+      universityImage: imageUrl,
       universityCountry: e.target.universityCountry.value,
       universityCity: e.target.universityCity.value,
       universityWorldRank: e.target.universityWorldRank.value,
@@ -96,7 +95,7 @@ const AddScholarship = () => {
   };
 
   return (
-    <div className=" mx-3 sm:max-w-[500px] md:max-w-[510px] lg:max-w-[800px] xl:max-w-[1200px] sm:mx-auto my-4 w-full  bg-base-100 shadow rounded-2xl p-6">
+    <div className=" mx-3 sm:max-w-[500px] md:max-w-[600px] lg:max-w-[800px] xl:max-w-[1000px] sm:mx-auto my-4 w-full  bg-base-100 shadow rounded-2xl xl:rounded-0 p-6">
       <h3 className="text-xl font-semibold mb-4">Add Scholarship</h3>
 
       <form 
@@ -114,12 +113,6 @@ const AddScholarship = () => {
               className="hidden md:block"
             />
 
-<input
-              name="image"
-              className="w-full px-3 py-2 rounded border bg-base-200"
-              placeholder="e.g. Global Merit Scholarship"
-              required
-            />
             <label
               htmlFor="sch-image"
               className="inline-flex items-center gap-2 px-3 py-2 rounded bg-base-200 cursor-pointer">
@@ -275,7 +268,7 @@ const AddScholarship = () => {
             type="submit"
             disabled={imgUploading}
             className="px-4 py-2 rounded bg-green-500 text-white flex items-center gap-2">
-            <FaPlus /> Add Scholarship
+            <FaPlus /> Add
           </button>
         </div>
       </form>

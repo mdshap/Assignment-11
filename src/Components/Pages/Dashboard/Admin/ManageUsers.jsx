@@ -10,20 +10,20 @@ const ManageUsers = () => {
   const [filterRole, setFilterRole] = useState("All");
   const [editingUser, setEditingUser] = useState(null);
 
-  // FETCH USERS
+
   useEffect(() => {
     axiosProvider.get("/users").then((res) => {
       setUsers(res.data || []);
     });
   }, []);
 
-  // FILTER USERS (simple & readable)
+
   let visibleUsers = users;
   if (filterRole !== "All") {
     visibleUsers = users.filter((u) => u.role === filterRole);
   }
 
-  // OPEN / CLOSE MODAL
+
   const openEdit = (user) => {
     setEditingUser(user);
   };
@@ -32,7 +32,7 @@ const ManageUsers = () => {
     setEditingUser(null);
   };
 
-  // PATCH ROLE
+
   const saveRole = async () => {
     await axiosProvider.patch(`/users/${editingUser.email}`, {
       role: editingUser.role,
@@ -50,10 +50,20 @@ const ManageUsers = () => {
     closeEdit();
   };
 
-  // DELETE PLACEHOLDER (you can add API later)
-  const deleteUser = (email) => {
-    console.log("Delete user:", email);
-  };
+
+  const deleteUser = async (email) => {
+  try {
+    await axiosProvider.delete(`/users/${email}`);
+
+    const remainingUsers = users.filter((u) => u.email !== email);
+    setUsers(remainingUsers);
+
+    toast.success("Successfully Deleted");
+  } catch (error) {
+    console.error(error);
+    toast.error("Failed to delete user");
+  }
+};
 
   return (
     <div className="w-full max-w-7xl mx-auto bg-base-100 rounded-2xl p-4 shadow">
@@ -78,7 +88,6 @@ const ManageUsers = () => {
         </div>
       </div>
 
-      {/* DESKTOP TABLE */}
       <div className="hidden md:block">
         <table className="table w-full">
           <thead>
@@ -104,7 +113,7 @@ const ManageUsers = () => {
                 <td>{u.email}</td>
                 <td className="text-green-600">{u.role}</td>
                 <td className="text-right">
-                  <div className="flex items-center justify-end gap-2">
+                  <div className="grid  lg:grid-cols-2 justify-end gap-2">
                     <button
                       onClick={() => openEdit(u)}
                       className="btn btn-sm bg-green-500 hover:bg-green-600 text-white"
@@ -125,7 +134,7 @@ const ManageUsers = () => {
         </table>
       </div>
 
-      {/* MOBILE VIEW */}
+      {/* MOBILE */}
       <div className="md:hidden space-y-3">
         {visibleUsers.length === 0 && (
           <div className="text-sm text-base-content/60">No users found</div>
@@ -136,9 +145,9 @@ const ManageUsers = () => {
             key={u._id}
             className="p-3 rounded-lg bg-base-200 flex items-center justify-between"
           >
-            <div>
-              <div className="font-medium text-pink-600">{u.name}</div>
-              <div className="text-sm text-base-content/70">{u.email}</div>
+            <div className="r">
+              <div className="font-medium text-sm sm:text-md text-pink-600">{u.name}</div>
+              <div className="text-[12px] max-w-28 text-base-content/70">{u.email}</div>
               <div className="text-xs mt-1">
                 Role: <span className="font-medium text-green-600">{u.role}</span>
               </div>
@@ -149,20 +158,20 @@ const ManageUsers = () => {
                 onClick={() => openEdit(u)}
                 className="px-3 py-1 rounded bg-green-500 text-white text-sm flex items-center gap-2"
               >
-                <FaUserEdit /> Change
+                <FaUserEdit /> <p className="hidden sm:block">Change</p> 
               </button>
               <button
                 onClick={() => deleteUser(u.email)}
                 className="px-3 py-1 rounded bg-red-400 text-white text-sm flex items-center gap-1"
               >
-                <FaTrash /> Delete
+                <FaTrash /> <p className="hidden sm:block">Delete</p>
               </button>
             </div>
           </div>
         ))}
       </div>
 
-      {/* EDIT MODAL */}
+
       {editingUser && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/40" onClick={closeEdit} />

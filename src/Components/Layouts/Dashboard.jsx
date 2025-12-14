@@ -14,7 +14,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div data-theme="light" className="flex max-w-[1440px] mx-auto">
+    <div data-theme="light" className="flex max-w-[1440px] mx-auto bg-green-50">
       <DashSidebar />
       <ReactToaster/>
       <Outlet />

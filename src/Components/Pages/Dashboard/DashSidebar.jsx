@@ -33,24 +33,24 @@ const DashSidebar = () => {
   const sidebarWidthClass = collapsed ? "w-14" : "w-51";
 
   return (
-    <div className="dash-active min-h-screen max-h-screen sticky top-0 left-0 bottom-0 z-30 flex">
+    <div className="dash-active min-h-screen max-h-screen sticky top-0 left-0 bottom-0 z-30 flex ">
       <aside
-        className={`box-border bg-base-200 shadow-lg border-r border-base-300 transition-[width] duration-200 ease-in-out ${sidebarWidthClass} flex flex-col overflow-x-hidden`}
+        className={`box-border bg-base-200 shadow-lg border-r border-base-300 transition-[width] duration-200 ease-in-out ${sidebarWidthClass} flex flex-col overflow-x-hidden `}
         aria-expanded={!collapsed}>
         <div
-          className={`flex items-center border-b border-base-300 gap-2 py-3 bg-base-300 ${
+          className={`flex items-center border-b border-base-300 gap-2 py-3 bg-linear-to-br to-green-200  ${
             collapsed ? "justify-center px-2" : "px-3"
           }`}>
           <a
             className={`flex items-center gap-2 ${
-              collapsed ? "justify-center" : ""
+              collapsed ? "justify-center " : ""
             }`}
             href="/">
             <IoSchool className="text-green-600 text-xl" />
             <span
               className={`${
                 collapsed ? "hidden" : "inline"
-              } font-bold text-lg truncate`}>
+              } font-bold text-lg truncate `}>
               Scholar <span className="text-green-600">Stream</span>
             </span>
           </a>

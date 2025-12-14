@@ -46,7 +46,7 @@ const ContactUs = () => {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="bg-green-50 rounded-2xl shadow-xl p-8 grid gap-6 min-w-110">
+          className="bg-green-50 rounded-2xl shadow-xl p-8 grid gap-6 min-w-90 sm:min-w-110">
           <div>
             <label className="block mb-1 font-medium">Name</label>
             <input

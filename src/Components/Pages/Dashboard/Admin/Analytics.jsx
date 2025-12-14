@@ -13,7 +13,6 @@ import {
 } from "recharts";
 
 const Analytics = () => {
-  // Dummy Summary Data
   const totalUsers = 1250;
   const totalFeesCollected = 45200;
   const totalScholarships = 320;
