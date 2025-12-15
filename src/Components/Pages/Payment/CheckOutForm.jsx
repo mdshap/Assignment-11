@@ -59,21 +59,26 @@ const CheckOutForm = () => {
       setError(error.message);
       setLoading(false);
     } else if (paymentIntent.status === "succeeded") {
+
       await axiosProvider.post("/applications", {
         scholarshipId: scholarship._id,
+        scholarshipName: scholarship.scholarshipName,
 
         userId: userFromDb._id,
         userName: userFromDb.name,
         userEmail: userFromDb.email,
 
         universityName: scholarship.universityName,
+        universityCity: scholarship.universityCity,
+        universityCountry: scholarship.universityCountry,
+        
         scholarshipCategory: scholarship.scholarshipCategory,
         degree: scholarship.degree,
 
         applicationFees,
         serviceCharge,
 
-        paymentStatus: "paid",
+        paymentStatus: "PAID",
       });
 
       setLoading(false);

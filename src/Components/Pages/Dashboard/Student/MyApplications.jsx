@@ -9,6 +9,7 @@ import {
 
 import axiosProvider from "../../../../API/axiosProvider";
 import { AuthContext } from "../../../../Authentication/AuthContext";
+import toast from "react-hot-toast";
 
 const MyApplications = () => {
   const { userFromDb } = use(AuthContext);
@@ -24,8 +25,8 @@ const MyApplications = () => {
 
   useEffect(() => {
     if (!userFromDb?._id) return;
-
     setLoading(true);
+
     axiosProvider
       .get(`/applications/${userFromDb._id}`)
       .then((res) => {
@@ -54,12 +55,43 @@ const MyApplications = () => {
   const saveEdit = () => closeEdit();
 
   const deleteApp = async (id) => {
-    if (!confirm("Delete this application? This cannot be undone.")) return;
+    if (!confirm("Delete this application?")) return;
+
     await axiosProvider.delete(`/applications/${id}`);
-    setList((prev) => prev.filter((p) => p._id !== id));
+
+    setList((prev) => prev.filter((app) => app._id !== id));
   };
 
-  const submitReview = () => closeReview();
+  const submitReview = async () => {
+    if (!reviewRating || !reviewText) {
+      toast.error("Please give rating and comment");
+      return;
+    }
+
+    await axiosProvider
+      .post("/reviews", {
+        applicationId: reviewModal._id,
+        scholarshipId: reviewModal.scholarshipId,
+        scholarshipName: reviewModal.scholarshipName,
+
+        universityName: reviewModal.universityName,
+        universityCity: reviewModal.universityCity,
+        universityCountry: reviewModal.universityCountry,
+
+        userId: userFromDb._id,
+        userName: userFromDb.name,
+        userEmail: userFromDb.email,
+        userImage: userFromDb.photoURL,
+
+        rating: reviewRating,
+        comment: reviewText,
+      })
+      .then(() => {
+        toast.success("Submitted Your Review");
+      });
+
+    closeReview();
+  };
 
   return (
     <div className="w-full max-w-7xl mx-auto bg-base-100 rounded-2xl p-4 shadow">
@@ -107,9 +139,9 @@ const MyApplications = () => {
                 <td className="text-center">
                   ${it.applicationFees}
                   <div
-                    className={`text-xs rounded-xl w-20 mx-auto py-1 mt-1 ${
-                      it.paymentStatus === "paid"
-                        ? "bg-green-400 text-green-800"
+                    className={`text-xs rounded-xl w-15 mx-auto py-1 mt-1 ${
+                      it.paymentStatus === "PAID"
+                        ? "bg-green-600 text-white"
                         : "bg-red-300 text-red-700"
                     }`}>
                     {it.paymentStatus}
@@ -190,21 +222,34 @@ const MyApplications = () => {
                   Applied: {new Date(it.applicationDate).toLocaleDateString()}
                 </div>
 
-                <div className="text-xs flex gap-2 mt-1 text-base-content/60">
+                <div className="text-xs flex gap-3 mt-1 text-base-content/60">
                   Fees: ${it.applicationFees}
-                  <span className="text-green-600">{it.paymentStatus}</span>
+                  <span
+                    className={` px-2 py-0.5 rounded-full  ${
+                      it.paymentStatus === "PAID"
+                        ? "bg-green-600 text-white"
+                        : "bg-red-300 text-red-700"
+                    }`}>
+                    {it.paymentStatus}
+                  </span>
                 </div>
               </div>
 
-              <div className="shrink-0 text-right">
+              <div className="shrink-0 flex flex-col justify-between">
                 <div
-                  className={`inline-block px-2 py-1 rounded text-xs ${
+                  className={` px-2 ml-8 py-1 w-18 rounded-xl text-xs text-center ${
                     it.applicationStatus === "completed"
                       ? "bg-green-100 text-green-700"
                       : "bg-yellow-100 text-yellow-700"
                   }`}>
                   {it.applicationStatus}
                 </div>
+
+                <button
+                  onClick={() => openDetails(it)}
+                  className="btn col-span-2 py-0 rounded bg-transparent border-none text-sm flex items-center justify-center gap-2">
+                  <FaInfoCircle /> Details
+                </button>
               </div>
             </div>
 
@@ -228,16 +273,10 @@ const MyApplications = () => {
               {it.applicationStatus === "completed" && (
                 <button
                   onClick={() => openReview(it)}
-                  className="btn py-1 rounded bg-pink-500 text-white text-sm flex items-center justify-center gap-2">
+                  className="btn py-1 col-span-2 rounded bg-pink-500 text-white text-sm flex items-center justify-center gap-2">
                   <FaStar /> Review
                 </button>
               )}
-
-              <button
-                onClick={() => openDetails(it)}
-                className="btn col-span-2 py-1 rounded bg-base-300 text-sm flex items-center justify-center gap-2">
-                <FaInfoCircle /> Details
-              </button>
             </div>
           </div>
         ))}
@@ -314,7 +353,7 @@ const MyApplications = () => {
                   <p className="text-xs text-base-content/60">Payment Status</p>
                   <span
                     className={`inline-block mt-1 px-3 py-1 rounded-full text-xs font-semibold ${
-                      detailsModal.paymentStatus === "paid"
+                      detailsModal.paymentStatus === "PAID"
                         ? "bg-green-100 text-green-700"
                         : "bg-red-100 text-red-700"
                     }`}>
@@ -359,6 +398,57 @@ const MyApplications = () => {
             <div className="mt-5 flex justify-end">
               <button onClick={closeDetails} className="btn px-6">
                 Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {reviewModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/40" onClick={closeReview} />
+
+          <div className="relative w-full max-w-md bg-base-100 p-5 rounded-2xl shadow">
+            <h4 className="text-lg font-semibold mb-4">Add Review</h4>
+
+            <div className="mb-4">
+              <p className="text-sm mb-2">Your Rating</p>
+              <div className="flex gap-2">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <button
+                    key={star}
+                    onClick={() => setReviewRating(star)}
+                    className={`p-2 rounded ${
+                      reviewRating >= star
+                        ? "bg-yellow-400 text-white"
+                        : "bg-base-200 text-base-content/60"
+                    }`}>
+                    <FaStar />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="mb-4">
+              <label className="text-sm">Comment</label>
+              <textarea
+                value={reviewText}
+                onChange={(e) => setReviewText(e.target.value)}
+                rows={4}
+                className="w-full mt-1 px-3 py-2 rounded bg-base-200"
+                placeholder="Write your experience..."
+              />
+            </div>
+
+            <div className="flex justify-end gap-3">
+              <button onClick={closeReview} className="btn btn-sm bg-base-200">
+                Cancel
+              </button>
+
+              <button
+                onClick={submitReview}
+                className="btn btn-sm bg-green-600 text-white">
+                Submit Review
               </button>
             </div>
           </div>
