@@ -47,7 +47,7 @@ const ManageUsers = () => {
       const remainingUsers = users.filter((u) => u.email !== email);
       setUsers(remainingUsers);
 
-      toast.success("Successfully Deleted");
+      toast.error("Successfully Deleted");
     } catch (error) {
       console.error(error);
       toast.error("Failed to delete user");

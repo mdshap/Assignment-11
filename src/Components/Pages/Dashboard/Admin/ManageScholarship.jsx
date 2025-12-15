@@ -76,7 +76,7 @@ const ManageScholarships = () => {
 
       setList((prev) => prev.filter((p) => p._id !== id));
 
-      toast.success("Successfully Deleted");
+      toast.error("Successfully Deleted");
     } catch (error) {
       console.error(error);
       toast.error("Failed to delete scholarship");

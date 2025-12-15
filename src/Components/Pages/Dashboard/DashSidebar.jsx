@@ -13,7 +13,7 @@ import UserSidebar from "./Student/UserSidebar";
 import { AuthContext } from "../../../Authentication/AuthContext";
 
 const DashSidebar = () => {
-  const { userFromDb } = use(AuthContext);
+  const { userFromDb, signOutUser } = use(AuthContext);
   const role = userFromDb?.role;
   console.log(role);
 
@@ -104,7 +104,10 @@ const DashSidebar = () => {
 
         <div className={`py-3 ${collapsed ? "text-center px-2" : "px-3"}`}>
           <button
-            onClick={() => alert("logout")}
+            onClick={() => {
+              if (!confirm("Do you want to Logout?")) return;
+              signOutUser();
+            }}
             className={`btn btn-sm btn-outline ${collapsed ? "" : "w-full"}`}>
             <div className={`${collapsed ? "hidden" : "flex gap-2"}`}>
               <p className="text-md">Logout</p> <LuLogOut className="text-lg" />

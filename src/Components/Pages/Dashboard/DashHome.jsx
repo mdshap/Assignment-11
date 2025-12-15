@@ -1,17 +1,17 @@
-import React from "react";
-import CheckOutForm from "../Payment/CheckOutForm";
-import StripeProvider from "../../../Stripe/StripeProvider";
+import React, { use } from "react";
+import { AuthContext } from "../../../Authentication/AuthContext";
 
 const DashHome = () => {
-  const role = "admin";
+  const { userFromDb } = use(AuthContext)
+  const role = userFromDb.role;
 
   const roleText =
-    role === "admin" ? "Admin" : role === "moderator" ? "Moderator" : "Student";
+    role === "Admin" ? "Admin" : role === "Moderator" ? "Moderator" : "Student";
 
   const roleSubtitle =
-    role === "admin"
+    role === "Admin"
       ? "Manage scholarships, users, and platform insights"
-      : role === "moderator"
+      : role === "Moderator"
       ? "Review applications and support students"
       : "Track your applications and explore opportunities";
 

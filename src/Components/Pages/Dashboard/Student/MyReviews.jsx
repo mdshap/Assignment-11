@@ -2,6 +2,7 @@ import React, { useEffect, useState, use } from "react";
 import { FaEdit, FaTrash, FaStar } from "react-icons/fa";
 import axiosProvider from "../../../../API/axiosProvider";
 import { AuthContext } from "../../../../Authentication/AuthContext";
+import toast from "react-hot-toast";
 
 const MyReviews = () => {
   const { userFromDb } = use(AuthContext);
@@ -56,14 +57,41 @@ const MyReviews = () => {
     setDraftRating(0);
   };
 
-  const saveEdit = () => {
-    closeEdit();
-  };
+const saveEdit = async () => {
+  if (!editModal) return;
+
+  await axiosProvider.patch(`/reviews/${editModal._id}`, {
+    ratingPoint: draftRating,
+    reviewComment: draftComment,
+  })
+  .then(()=>{
+    toast.success('Updated')
+  });
+
+  setList((prev) =>
+    prev.map((r) =>
+      r._id === editModal._id
+        ? {
+            ...r,
+            rating: draftRating,
+            comment: draftComment,
+            date: new Date().toISOString().slice(0, 10),
+          }
+        : r
+    )
+  );
+
+  closeEdit();
+};
+
 
   const deleteReview = async (id) => {
     if (!confirm("Delete this review? This cannot be undone.")) return;
 
-    await axiosProvider.delete(`/reviews/${id}`);
+    await axiosProvider.delete(`/reviews/${id}`)
+    .then(()=>{
+      toast.error('Review Deleted')
+    })
     setList((prev) => prev.filter((p) => p._id !== id));
   };
 
@@ -180,7 +208,68 @@ const MyReviews = () => {
             </div>
           </article>
         ))}
+
+        
       </div>
+      {editModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+
+            <div className="absolute inset-0 bg-black/40" onClick={closeEdit} />
+
+            <div className="relative w-full max-w-md bg-base-100 p-5 rounded-2xl shadow">
+              <h4 className="text-lg font-semibold mb-4">Edit Review</h4>
+
+              <div className="mb-3">
+                <p className="font-medium">{editModal.scholarshipName}</p>
+                <p className="text-sm text-base-content/60">
+                  {editModal.university}
+                </p>
+              </div>
+
+              <div className="mb-4">
+                <p className="text-sm text-base-content/70 mb-2">Rating</p>
+                <div className="flex gap-2">
+                  {[1, 2, 3, 4, 5].map((n) => (
+                    <button
+                      key={n}
+                      onClick={() => setDraftRating(n)}
+                      className={`p-2 rounded ${
+                        draftRating >= n
+                          ? "bg-yellow-400 text-white"
+                          : "bg-base-200 text-base-content/60"
+                      }`}>
+                      <FaStar />
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <p className="text-sm text-base-content/70 mb-2">Comment</p>
+                <textarea
+                  rows={4}
+                  value={draftComment}
+                  onChange={(e) => setDraftComment(e.target.value)}
+                  className="w-full px-3 py-2 rounded bg-base-200"
+                  placeholder="Write your review..."
+                />
+              </div>
+
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={closeEdit}
+                  className="px-4 py-2 rounded bg-base-200">
+                  Cancel
+                </button>
+                <button
+                  onClick={saveEdit}
+                  className="px-4 py-2 rounded bg-green-600 text-white">
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
     </div>
   );
 };
