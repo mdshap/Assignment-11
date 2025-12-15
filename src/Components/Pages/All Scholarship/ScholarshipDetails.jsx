@@ -1,107 +1,163 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import Loader from "../Loader/Loader";
+import axiosProvider from "../../../API/axiosProvider";
 
 const ScholarshipDetails = () => {
-
   const { id } = useParams();
-  const [book, setBook] = useState(null);
+  const [scholarship, setScholarship] = useState(null);
 
   useEffect(() => {
-    axios
-      .get(`https://assignment-10-serverside-gyny.onrender.com/books/${id}`)
-      .then((res) => setBook(res.data))
+    axiosProvider
+      .get(`/scholarships/${id}`)
+      .then((res) => {
+        setScholarship(res.data);
+      })
       .catch((err) => console.log(err));
   }, [id]);
 
+  if (!scholarship) return <Loader />;
 
-  if (!book) return <Loader />;
+  const feeCard = (
+    <div className="space-y-5">
+      <div className="rounded-xl p-5 bg-linear-to-r from-green-200 to-emerald-100 text-green-700 shadow-lg">
+        <h3 className="text-lg font-semibold mb-4">Application Fees</h3>
 
-
-
-
-  return (
-    <div className="min-h-screen ">
-      <div className="max-w-7xl mx-auto px-0 md:px-6 lg:px-8">
-        <div className="bg-transparent md:rounded-2xl overflow-hidden">
-          <div className="grid grid-cols-1 place-content-center md:grid-cols-3 gap-6 p-6 md:p-8">
-            <div className="md:col-span-1 flex items-start">
-              <div className="w-full">
-                <div className="rounded-xl overflow-hidden shadow-2xl transform transition hover:scale-[1.01]">
-                  <img
-                    src={book.coverImage}
-                    alt={book.title}
-                    className="w-full h-auto object-cover aspect-2/3"
-                  />
-                 
-                </div>
-                
-                
-              </div>
-            </div>
-
-            <div className="md:col-span-2 flex flex-col justify-center ">
-              <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-secondary leading-tight">
-                {book.title}
-              </h1>
-
-              <p className="mt-2 text-sm lg:text-lg text-gray-500">
-                by{" "}
-                <span className="font-medium text-lg text-green-600">
-                  University of Rajshahi <span className=" text-pink-500">(Rank: 200th)</span>
-                </span>
-              </p>
-
-              <div className="mt-4 flex flex-wrap items-center gap-3">
-                <div className="inline-flex items-center gap-2 bg-primary px-3 py-1 rounded-full text-sm lg:text-md text-gray-100">
-                  <span className="font-medium">Category</span>
-                </div>
-
-                <div className="inline-flex items-center gap-1 text-sm">
-                  <div className="text-sm lg:text-md text-gray-700 ml-2">
-                    Location
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-6 text-gray-900 leading-relaxed text-base lg:text-lg">
-                {book.summary}
-              </div>
-
-              <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="p-4 bg-gray-700 rounded-lg">
-                  <div className="text-xs text-center text-gray-300 ">
-                    Application Fee
-                  </div>
-                  <div className="mt-1 font-medium text-green-500 md:text-2xl lg:text-3xl text-center">
-                    $600
-                  </div>
-                </div>
-
-                <div className="p-3 bg-gray-700 rounded-lg">
-                  <div className="text-xs text-center text-gray-300">
-                    Application Deadline
-                  </div>
-                  <div className="mt-1 text-center font-medium text-red-400 md:text-xl lg:text-2xl">
-                    10 December 2025
-                  </div>
-                </div>
-                
-              </div>
-              <div className="col-span-full mt-4">
-                  <a
-                    href={book?.downloadLink}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-block px-6 py-4 bg-green-600 text-white rounded-md w-full text-center">
-                    Apply For Scholarship
-                  </a>
-                </div>
-            </div>
-            
+        <div className="space-y-2 text-sm">
+          <div className="flex justify-between">
+            <span>Application Fee</span>
+            <span>${scholarship?.applicationFees}</span>
           </div>
 
+          <div className="flex justify-between">
+            <span>Service Charge</span>
+            <span>${scholarship.serviceCharge}</span>
+          </div>
+
+          <div className="border-t border-green-800 pt-2 flex justify-between font-semibold">
+            <span>Total</span>
+            <span>
+              $
+              {Number(scholarship.applicationFees) +
+                Number(scholarship.serviceCharge)}
+            </span>
+          </div>
+        </div>
+
+        <Link
+          to="/payment"
+          state={{ scholarship }}
+          rel="noreferrer"
+          className="block mt-5 w-full bg-green-600 text-white font-semibold py-3 rounded-md text-center hover:bg-green-800 transition">
+          Apply For Scholarship
+        </Link>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+        <div className="bg-transparent">
+          <div className="flex flex-col lg:flex-row gap-6 p-4 lg:p-6">
+            <div className="w-full lg:w-5/12 xl:w-6/12">
+              <div className="relative rounded-xl overflow-hidden shadow-lg">
+                <img
+                  src={scholarship.universityImage}
+                  alt={scholarship.scholarshipName}
+                  className="w-full h-64 md:h-80 lg:h-96 object-cover"
+                />
+              </div>
+              <div className="hidden mt-4 lg:block">{feeCard}</div>
+            </div>
+
+            <div className="w-full lg:w-7/12 xl:w-6/12 flex flex-col justify-between gap-10">
+              <div className="text-center sm:text-left">
+                <h1 className="text-[27px] sm:text-4xl font-bold">
+                  {scholarship.scholarshipName}
+                </h1>
+
+                <p className="mt-2 text-gray-500">
+                  by{" "}
+                  <span className="font-medium text-green-600">
+                    {scholarship.universityName}
+                  </span>
+                  <span className="ml-2 text-pink-500">
+                    (Rank: {scholarship.universityWorldRank})
+                  </span>
+                </p>
+
+                <p className="mt-1 text-sm text-gray-500">
+                  {scholarship.universityCity}, {scholarship.universityCountry}
+                </p>
+
+                <div className="flex justify-center sm:justify-start gap-2 mt-3">
+                  <span className="px-3 py-1 bg-primary text-white text-xs rounded-full">
+                    {scholarship.degree || "Bachelor"}
+                  </span>
+                  <span className="px-3 py-1 bg-green-600 text-white text-xs rounded-full">
+                    {scholarship.subjectCategory}
+                  </span>
+                  <span className="px-3 py-1 bg-purple-600 text-white text-xs rounded-full">
+                    {scholarship.scholarshipCategory}
+                  </span>
+                </div>
+              </div>
+
+              <div className="rounded-xl p-6 h-full bg-gray-100 text-gray-800 space-y-4">
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Scholarship Details
+                </h3>
+
+                <p className="text-sm md:text-base leading-relaxed text-gray-700">
+                  <span className="font-semibold text-gray-900">
+                    {scholarship.universityName || "University Name"}
+                  </span>{" "}
+                  is a globally recognized institution located in{" "}
+                  <span className="font-medium">
+                    {scholarship.universityCity || "City"},{" "}
+                    {scholarship.universityCountry || "Country"}
+                  </span>
+                  , known for its academic excellence and research-driven
+                  environment. The university is offering a{" "}
+                  <span className="font-medium">
+                    {scholarship.degree || "Bachelor"}
+                  </span>{" "}
+                  degree scholarship for eligible domestic and international
+                  students across selected subjects and academic disciplines.
+                  <br />
+                  <br />
+                  This scholarship is categorized as a{" "}
+                  <span className="font-semibold text-green-700">
+                    Full Fund
+                  </span>{" "}
+                  opportunity, which significantly reduces the financial burden
+                  of higher education by covering major academic expenses such
+                  as tuition fees and essential university-related costs.
+                  <br />
+                  <br />
+                </p>
+
+                <div className="flex justify-between gap-3 text-sm">
+                  <div>
+                    <p className="text-gray-500">Deadline</p>
+                    <p className="font-medium text-red-600">
+                      {scholarship.applicationDeadline}
+                    </p>
+                  </div>
+
+                  <div>
+                    <p className="text-gray-500">Posted On</p>
+                    <p className="font-medium">
+                      {scholarship.scholarshipPostDate}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="lg:hidden">{feeCard}</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

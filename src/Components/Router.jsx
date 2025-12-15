@@ -21,8 +21,12 @@ import PrivateRoute from "../../PrivateRoutes/PrivateRoute";
 import AdminPrivate from "../../PrivateRoutes/AdminPrivate";
 import ModeratorPrivate from "../../PrivateRoutes/ModeratorPrivate";
 import UserPrivate from "../../PrivateRoutes/UserPrivate";
+import CheckOutForm from "./Pages/Payment/CheckOutForm";
+import StripeProvider from "../Stripe/StripeProvider";
+import PaymentSuccess from "./Pages/Payment/PaymentSuccess";
 
 export const router = createBrowserRouter([
+  //Main Site Related Routes
   {
     path: "/",
     Component: Root,
@@ -31,6 +35,8 @@ export const router = createBrowserRouter([
         index: true,
         Component: Home,
       },
+
+      //Login Register Related Routes
       {
         path: "login",
         Component: Login,
@@ -39,6 +45,8 @@ export const router = createBrowserRouter([
         path: "register",
         Component: Register,
       },
+
+      //All Scholarship Related Routes
       {
         path: "all-scholarships",
         Component: AllScholarship,
@@ -48,12 +56,23 @@ export const router = createBrowserRouter([
         Component: ScholarshipDetails,
       },
       {
+        path: 'payment',
+        element: <StripeProvider>
+          <CheckOutForm/>
+        </StripeProvider>
+      },
+      {
+        path: 'payment-success',
+        Component: PaymentSuccess,
+      },
+      {
         path: "*",
         Component: Error404,
       },
     ],
   },
 
+  //Dashboard Related Routes
   {
     path: "/dashboard",
     element: (
@@ -63,6 +82,7 @@ export const router = createBrowserRouter([
     ),
 
     children: [
+      //Common Routes
       {
         index: true,
         Component: DashHome,
@@ -71,6 +91,8 @@ export const router = createBrowserRouter([
         path: "profile",
         Component: Profile,
       },
+
+      //Admin Routes
       {
         path: "add-scholarship",
         element: (
@@ -103,6 +125,8 @@ export const router = createBrowserRouter([
           </AdminPrivate>
         ),
       },
+
+      //Moderator Routes
       {
         path: "manage-applications",
         element: (
@@ -119,6 +143,8 @@ export const router = createBrowserRouter([
           </ModeratorPrivate>
         ),
       },
+
+      //User Routes
       {
         path: "my-applications",
         element: (

@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AuthContext } from "../../../Authentication/AuthContext";
 import Loader from "../Loader/Loader";
 import { FaCaretDown, FaCaretUp, FaFilter } from "react-icons/fa";
@@ -39,7 +39,6 @@ const AllScholarship = () => {
         setScholarships(res.data);
       })
       .catch((error) => console.log(error.message));
-
   }, [searchText, selectedCategory, feeAscending]);
 
   const handleCategoryClick = (label) => {
@@ -50,47 +49,49 @@ const AllScholarship = () => {
   return (
     <div className="w-full">
       <div className="flex flex-col-reverse sm:flex-row gap-3 justify-end items-center mt-4 mx-8">
-
         <div className="flex gap-3 w-full sm:w-75">
           <button
-          className="btn flex gap-2 w-1/2 sm:w-40"
-          onClick={() => setFeeAscending(!feeAscending)}>
-          {feeAscending ? (
-            <FaCaretUp className="text-xl" />
-          ) : (
-            <FaCaretDown className="text-xl" />
-          )}
-          Application Fee
-        </button>
-
-        <div
-          className={`dropdown w-1/2 dropdown-left ${open ? "dropdown-open" : ""}`}>
-          <button className="btn flex w-full sm:w-30  gap-2" onClick={() => setOpen(!open)}>
-            <FaFilter /> Category
+            className="btn flex gap-2 w-1/2 sm:w-40"
+            onClick={() => setFeeAscending(!feeAscending)}>
+            {feeAscending ? (
+              <FaCaretUp className="text-xl" />
+            ) : (
+              <FaCaretDown className="text-xl" />
+            )}
+            Application Fee
           </button>
 
-          <ul className="dropdown-content menu bg-base-100 rounded-box z-10 w-52 p-2 shadow">
-            {items.map((it) => (
-              <li key={it.id}>
-                <a
-                  href="#!"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleCategoryClick(it.label);
-                  }}
-                  className={`hover:bg-gray-100 ${
-                    selectedCategory === it.label
-                      ? "bg-green-100 text-green-600 font-semibold"
-                      : ""
-                  }`}>
-                  {it.label}
-                </a>
-              </li>
-            ))}
-          </ul>
+          <div
+            className={`dropdown w-1/2 dropdown-left ${
+              open ? "dropdown-open" : ""
+            }`}>
+            <button
+              className="btn flex w-full sm:w-30  gap-2"
+              onClick={() => setOpen(!open)}>
+              <FaFilter /> Category
+            </button>
+
+            <ul className="dropdown-content menu bg-base-100 rounded-box z-10 w-52 p-2 shadow">
+              {items.map((it) => (
+                <li key={it.id}>
+                  <a
+                    href="#!"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleCategoryClick(it.label);
+                    }}
+                    className={`hover:bg-gray-100 ${
+                      selectedCategory === it.label
+                        ? "bg-green-100 text-green-600 font-semibold"
+                        : ""
+                    }`}>
+                    {it.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-        </div>
-        
 
         <label className="input w-full md:w-80">
           <input

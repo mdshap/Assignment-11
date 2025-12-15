@@ -13,10 +13,9 @@ import UserSidebar from "./Student/UserSidebar";
 import { AuthContext } from "../../../Authentication/AuthContext";
 
 const DashSidebar = () => {
-  const { userFromDb } = use(AuthContext)
+  const { userFromDb } = use(AuthContext);
   const role = userFromDb?.role;
   console.log(role);
-  
 
   const [collapsed, setCollapsed] = useState(true);
 

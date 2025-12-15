@@ -1,14 +1,12 @@
 import React from "react";
+import CheckOutForm from "../Payment/CheckOutForm";
+import StripeProvider from "../../../Stripe/StripeProvider";
 
 const DashHome = () => {
   const role = "admin";
 
   const roleText =
-    role === "admin"
-      ? "Admin"
-      : role === "moderator"
-      ? "Moderator"
-      : "Student";
+    role === "admin" ? "Admin" : role === "moderator" ? "Moderator" : "Student";
 
   const roleSubtitle =
     role === "admin"
@@ -20,10 +18,8 @@ const DashHome = () => {
   return (
     <div className="min-h-[70vh] mx-auto flex items-center justify-center px-4 ">
       <div className="text-center max-w-xl w-full bg-base-100 rounded-2xl shadow-lg p-8 border border-base-300">
-
         <h1 className="text-3xl md:text-4xl font-bold mb-3">
-          Welcome back,{" "}
-          <span className="text-green-500">{roleText}</span>
+          Welcome back, <span className="text-green-500">{roleText}</span>
         </h1>
 
         <p className="text-base md:text-lg text-base-content/70 mb-6">
@@ -35,7 +31,6 @@ const DashHome = () => {
             Scholar Stream Dashboard
           </span>
         </div>
-
       </div>
     </div>
   );

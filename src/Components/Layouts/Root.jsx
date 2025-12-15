@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import { AuthContext } from "../../Authentication/AuthContext";
 import Loader from "../Pages/Loader/Loader";
 import ReactToaster from "../../ReactToaster/ReactToaster";
+import StripeProvider from "../../Stripe/StripeProvider";
 
 const Root = () => {
   const { loading } = use(AuthContext);

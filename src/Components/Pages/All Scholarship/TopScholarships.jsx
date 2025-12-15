@@ -22,12 +22,10 @@ const TopUniversities = ({ data = [] }) => {
           0: { slidesPerView: 1 },
           640: { slidesPerView: 2 },
           1024: { slidesPerView: 3 },
-        }}
-      >
+        }}>
         {data.slice(0, 4).map((item) => (
           <SwiperSlide key={item._id}>
             <div className="bg-white rounded-xl shadow-md overflow-hidden">
-
               <div
                 className="h-40 max-h-40 overflow-hidden bg-center bg-cover"
                 style={{ backgroundImage: `url(${item.coverImage})` }}
@@ -45,8 +43,7 @@ const TopUniversities = ({ data = [] }) => {
 
                 <Link
                   to={`/details/${item._id}`}
-                  className="mt-4 inline-block w-full text-center bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition"
-                >
+                  className="mt-4 inline-block w-full text-center bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition">
                   View Details
                 </Link>
               </div>
