@@ -7,14 +7,13 @@ import toast from "react-hot-toast";
 
 const IMGBB_KEY = import.meta.env.VITE_IMGBB_API_KEY;
 
-
 const AddScholarship = () => {
   const { userFromDb } = use(AuthContext);
 
   const [imageUrl, setImageUrl] = useState(null);
   const [imgUploading, setImgUploading] = useState(false);
   const fileRef = useRef(null);
-    const formRef = useRef(null)
+  const formRef = useRef(null);
 
   const handleImageSelect = async (e) => {
     const file = e.target.files?.[0];
@@ -68,21 +67,21 @@ const AddScholarship = () => {
       scholarshipPostDate: e.target.scholarshipPostDate.value,
       postedUserEmail: e.target.postedUserEmail.value,
     };
-    
+
     console.log(scholarshipInfo);
-    
-      await axiosProvider.post("/scholarships", scholarshipInfo)
-    .then((res) => {
-      if (res.data?.insertedId || res.status === 201) {
-        resetForm();
-        toast.success('Successfully Added')
-        
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      alert("Failed to add scholarship");
-    });
+
+    await axiosProvider
+      .post("/scholarships", scholarshipInfo)
+      .then((res) => {
+        if (res.data?.insertedId || res.status === 201) {
+          resetForm();
+          toast.success("Successfully Added");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("Failed to add scholarship");
+      });
   };
 
   const resetForm = () => {
@@ -98,9 +97,7 @@ const AddScholarship = () => {
     <div className=" mx-3 sm:max-w-[500px] md:max-w-[600px] lg:max-w-[800px] xl:max-w-[1000px] sm:mx-auto my-4 w-full  bg-base-100 shadow rounded-2xl xl:rounded-0 p-6">
       <h3 className="text-xl font-semibold mb-4">Add Scholarship</h3>
 
-      <form 
-      ref={formRef}
-      onSubmit={addScholarship}>
+      <form ref={formRef} onSubmit={addScholarship}>
         <div className="w-full mx-auto">
           <label className="text-sm text-base-content/70">Image</label>
           <div className="flex w-full items-center gap-3">
@@ -118,7 +115,6 @@ const AddScholarship = () => {
               className="inline-flex items-center gap-2 px-3 py-2 rounded bg-base-200 cursor-pointer">
               <FaImage /> {imgUploading ? "Loading..." : "Upload Image"}
             </label>
-
           </div>
         </div>
         <br />

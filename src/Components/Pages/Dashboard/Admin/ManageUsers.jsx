@@ -41,6 +41,7 @@ const ManageUsers = () => {
   };
 
   const deleteUser = async (email) => {
+    if (!confirm("Caution! Are You Sure to Delete?")) return;
     try {
       await axiosProvider.delete(`/users/${email}`);
 
@@ -57,7 +58,9 @@ const ManageUsers = () => {
   return (
     <div className="w-full max-w-7xl mx-auto bg-base-100 rounded-2xl p-4 shadow">
       <div className=" md:hidden mb-4">
-        <h3 className="text-lg font-semibold text-center text-green-600">Manage Users</h3>
+        <h3 className="text-lg font-semibold text-center text-green-600">
+          Manage Users
+        </h3>
       </div>
 
       <div className="hidden md:block">

@@ -1,14 +1,10 @@
 import React, { useEffect, useState, use } from "react";
-import {
-  FaInfoCircle,
-  FaEdit,
-  FaTrash,
-  FaStar,
-} from "react-icons/fa";
+import { FaInfoCircle, FaEdit, FaTrash, FaStar } from "react-icons/fa";
 
 import axiosProvider from "../../../../API/axiosProvider";
 import { AuthContext } from "../../../../Authentication/AuthContext";
 import toast from "react-hot-toast";
+import Loader from "../../Loader/Loader";
 
 const MyApplications = () => {
   const { userFromDb } = use(AuthContext);
@@ -42,7 +38,7 @@ const MyApplications = () => {
 
   const openReview = (it) => {
     setReviewModal(it);
-    setReviewText(it?.feedback || "");
+    setReviewText(it?.reviewComment || "");
     setReviewRating(it?.rating || 0);
   };
   const closeReview = () => {
@@ -91,6 +87,11 @@ const MyApplications = () => {
       return;
     }
 
+    if (reviewModal.reviewComment) {
+      toast.error("Already Reviewed");
+      return;
+    }
+
     await axiosProvider
       .post("/reviews", {
         applicationId: reviewModal._id,
@@ -111,7 +112,8 @@ const MyApplications = () => {
       })
       .then(() => {
         toast.success("Submitted Your Review");
-      });
+      })
+      .catch(() => toast.error("You Already Reviewed"));
 
     closeReview();
   };
@@ -121,7 +123,9 @@ const MyApplications = () => {
       <h3 className="text-lg font-semibold mb-4">My Applications</h3>
 
       {loading && (
-        <div className="text-sm text-base-content/60">Loading...</div>
+        <div className="text-sm text-base-content/60">
+          <Loader />
+        </div>
       )}
 
       <div className="hidden lg:block overflow-x-auto">
@@ -176,7 +180,9 @@ const MyApplications = () => {
                     className={`font-bold  ${
                       it.applicationStatus === "pending"
                         ? "text-yellow-500"
-                        : "text-green-700"
+                        : it.applicationStatus === "completed"
+                        ? "text-green-700"
+                        : "text-red-600"
                     }`}>
                     {it.applicationStatus}
                   </span>
@@ -235,7 +241,7 @@ const MyApplications = () => {
             className="p-3 rounded-lg bg-base-200 border border-base-300">
             <div className="flex justify-between gap-3">
               <div className="flex-1 min-w-0">
-                <div className="font-medium truncate text-pink-600">
+                <div className="font-medium text-pink-600">
                   {it.universityName}
                 </div>
 
@@ -263,14 +269,16 @@ const MyApplications = () => {
                   className={` px-2 ml-8 py-1 w-18 rounded-xl text-xs text-center ${
                     it.applicationStatus === "completed"
                       ? "bg-green-100 text-green-700"
-                      : "bg-yellow-100 text-yellow-700"
+                      : it.applicationStatus === "pending"
+                      ? "bg-yellow-100 text-yellow-700"
+                      : "bg-red-100 text-red-600"
                   }`}>
                   {it.applicationStatus}
                 </div>
 
                 <button
                   onClick={() => openDetails(it)}
-                  className="btn col-span-2 py-0 rounded bg-transparent border-none text-sm flex items-center justify-center gap-2">
+                  className="btn border-none bg-transparent">
                   <FaInfoCircle /> Details
                 </button>
               </div>
@@ -364,7 +372,9 @@ const MyApplications = () => {
                     className={`inline-block mt-1 px-3 py-1 rounded-full text-xs font-semibold ${
                       detailsModal.applicationStatus === "pending"
                         ? "bg-yellow-100 text-yellow-700"
-                        : "bg-green-100 text-green-700"
+                        : detailsModal.applicationStatus === "completed"
+                        ? "bg-green-100 text-green-700"
+                        : "bg-red-100 text-red-600"
                     }`}>
                     {detailsModal.applicationStatus}
                   </span>
@@ -469,7 +479,7 @@ const MyApplications = () => {
               </button>
 
               <button
-                onClick={submitReview}
+                onClick={() => submitReview()}
                 className="btn btn-sm bg-green-600 text-white">
                 Submit Review
               </button>

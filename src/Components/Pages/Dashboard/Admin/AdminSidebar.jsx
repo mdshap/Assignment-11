@@ -1,8 +1,8 @@
-import React from 'react';
-import { IoIosAddCircleOutline } from 'react-icons/io';
-import { MdManageAccounts, MdOutlineManageHistory } from 'react-icons/md';
-import { TbDeviceAnalytics } from 'react-icons/tb';
-import { NavLink } from 'react-router';
+import React from "react";
+import { IoIosAddCircleOutline } from "react-icons/io";
+import { MdManageAccounts, MdOutlineManageHistory } from "react-icons/md";
+import { TbDeviceAnalytics } from "react-icons/tb";
+import { NavLink } from "react-router";
 
 const AdminSidebar = ({ collapsed }) => {
   const itemClass = collapsed
@@ -14,7 +14,8 @@ const AdminSidebar = ({ collapsed }) => {
       <li>
         <NavLink to="analytics" className={itemClass}>
           <TbDeviceAnalytics className="text-xl shrink-0" />
-          <span className={`${collapsed ? "hidden" : "inline"} truncate min-w-0`}>
+          <span
+            className={`${collapsed ? "hidden" : "inline"} truncate min-w-0`}>
             Analytics
           </span>
         </NavLink>
@@ -23,7 +24,8 @@ const AdminSidebar = ({ collapsed }) => {
       <li>
         <NavLink to="add-scholarship" className={itemClass}>
           <IoIosAddCircleOutline className="text-2xl shrink-0" />
-          <span className={`${collapsed ? "hidden" : "inline"} truncate min-w-0`}>
+          <span
+            className={`${collapsed ? "hidden" : "inline"} truncate min-w-0`}>
             Add Scholarship
           </span>
         </NavLink>
@@ -32,7 +34,8 @@ const AdminSidebar = ({ collapsed }) => {
       <li>
         <NavLink to="manage-scholarship" className={itemClass}>
           <MdOutlineManageHistory className="text-xl shrink-0" />
-          <span className={`${collapsed ? "hidden" : "inline"} truncate min-w-0`}>
+          <span
+            className={`${collapsed ? "hidden" : "inline"} truncate min-w-0`}>
             Manage Scholarships
           </span>
         </NavLink>
@@ -41,7 +44,8 @@ const AdminSidebar = ({ collapsed }) => {
       <li>
         <NavLink to="manage-users" className={itemClass}>
           <MdManageAccounts className="text-xl shrink-0" />
-          <span className={`${collapsed ? "hidden" : "inline"} truncate min-w-0`}>
+          <span
+            className={`${collapsed ? "hidden" : "inline"} truncate min-w-0`}>
             Manage Users
           </span>
         </NavLink>

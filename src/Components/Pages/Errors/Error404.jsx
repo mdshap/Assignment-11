@@ -1,8 +1,10 @@
 import React from "react";
 import errorLogo from "/error-404.png";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const Error404 = () => {
+  const navigate = useNavigate()
+
   return (
     <div>
       <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12">
@@ -18,11 +20,11 @@ const Error404 = () => {
           <p className="text-gray-600 mb-8">
             The page you are looking for is not available.
           </p>
-          <Link
-            to="/"
+          <button
+            onClick={()=>navigate(-1)}
             className="bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-purple-700 transition-colors">
             Go Back!
-          </Link>
+          </button>
         </div>
       </div>
     </div>

@@ -6,49 +6,44 @@ import ScholarshipCard from "./ScholarshipCard";
 import axiosProvider from "../../../API/axiosProvider";
 
 const BestScholarships = () => {
-
   const [scholarships, setScholarships] = useState([]);
-  const [scholarshipsLoading, setScholarshipsLoading] = useState(true)
+  const [scholarshipsLoading, setScholarshipsLoading] = useState(true);
   const [showAll, setShowAll] = useState(false);
 
-  const {loading } =use(AuthContext)
+  const { loading } = use(AuthContext);
 
   useEffect(() => {
-    axiosProvider.get('/scholarships')
+    axiosProvider
+      .get("/scholarships")
       .then((res) => {
         setScholarships(res.data);
-        setScholarshipsLoading(false)
-        
+        setScholarshipsLoading(false);
       })
       .catch((error) => {
         console.log(error);
       });
   }, [showAll]);
 
+  const handleShowAll = () => {
+    setShowAll(!showAll);
+  };
 
-  const handleShowAll = () =>{
-    setShowAll(!showAll)
-  }
-
-  if(loading || scholarshipsLoading){
-    return(
-      <Loader></Loader>
-    )
+  if (loading || scholarshipsLoading) {
+    return <Loader></Loader>;
   }
 
   return (
     <div>
-
       <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 place-items-center">
         {scholarships.map((scholarship) => (
-          <ScholarshipCard  scholarship={scholarship}></ScholarshipCard>
+          <ScholarshipCard scholarship={scholarship}></ScholarshipCard>
         ))}
       </div>
-      
+
       <div className="w-full flex justify-center mt-5">
-        <button 
-        onClick={handleShowAll}
-        className="btn btn-ghost mx-auto">{ showAll ? 'Show Less' : 'Show All'}</button>
+        <button onClick={handleShowAll} className="btn btn-ghost mx-auto">
+          {showAll ? "Show Less" : "Show All"}
+        </button>
       </div>
     </div>
   );

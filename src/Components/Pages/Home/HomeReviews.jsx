@@ -62,8 +62,7 @@ const HomeReviews = () => {
         whileInView={{ y: 0 }}
         viewport={{ once: false }}
         transition={{ duration: 0.35 }}
-        className="text-3xl md:text-4xl font-bold text-center mb-12"
-      >
+        className="text-3xl md:text-4xl font-bold text-center mb-12">
         Student <span className="text-green-500">Reviews</span>
       </motion.h3>
 
@@ -72,16 +71,18 @@ const HomeReviews = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: false, margin: "-100px" }}
-        className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
-      >
+        className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {reviews.map((r) => (
           <motion.div
             key={r.id}
             variants={card}
-            className="bg-white rounded-2xl shadow-xl p-6 hover:shadow-2xl transition"
-          >
+            className="bg-white rounded-2xl shadow-xl p-6 hover:shadow-2xl transition">
             <div className="flex items-center gap-4">
-              <img src={r.photo} alt={r.name} className="w-12 h-12 rounded-full" />
+              <img
+                src={r.photo}
+                alt={r.name}
+                className="w-12 h-12 rounded-full"
+              />
               <div>
                 <h4 className="font-semibold">{r.name}</h4>
                 <p className="text-xs text-gray-500">{r.email}</p>

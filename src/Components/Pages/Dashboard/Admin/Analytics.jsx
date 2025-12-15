@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   BarChart,
   Bar,
@@ -11,45 +11,86 @@ import {
   Cell,
   Legend,
 } from "recharts";
+import axiosProvider from "../../../../API/axiosProvider";
 
 const Analytics = () => {
-  const totalUsers = 1250;
-  const totalFeesCollected = 45200;
-  const totalScholarships = 320;
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [totalFeesCollected, setTotalFeesCollected] = useState(0);
+  const [totalScholarships, setTotalScholarships] = useState(0);
+  const [uniData, setUniData] = useState([]);
+  const [categoryData, setCategoryData] = useState([]);
 
-  const uniData = [
-    { university: "Harvard", applications: 120 },
-    { university: "Toronto", applications: 95 },
-    { university: "Tokyo", applications: 80 },
-    { university: "Oxford", applications: 110 },
-    { university: "Melbourne", applications: 70 },
-  ];
+  const COLORS = ["#22c55e", "#3B82F6", "#EC4899", "#15803d"];
 
-  const categoryData = [
-    { name: "Full Funded", value: 150 },
-    { name: "Semi Funded", value: 90 },
-    { name: "Merit-based", value: 55 },
-    { name: "Need-based", value: 40 },
-  ];
+  useEffect(() => {
+    const loadAnalytics = async () => {
+      const [usersRes, appsRes, scholarshipsRes] = await Promise.all([
+        axiosProvider.get("/users"),
+        axiosProvider.get("/applications"),
+        axiosProvider.get("/scholarships"),
+      ]);
 
-  const COLORS = ["#22c55e", "#86efac", "#4ade80", "#15803d"];
+      const users = usersRes.data || [];
+      const applications = appsRes.data || [];
+      const scholarships = scholarshipsRes.data || [];
+
+      setTotalUsers(users.length);
+      setTotalScholarships(scholarships.length);
+
+      const fees = applications
+        .filter((a) => a.paymentStatus === "PAID")
+        .reduce(
+          (sum, a) =>
+            sum + Number(a.applicationFees || 0) + Number(a.serviceCharge || 0),
+          0
+        );
+      setTotalFeesCollected(fees);
+
+      const uniMap = {};
+      applications.forEach((a) => {
+        uniMap[a.universityName] = (uniMap[a.universityName] || 0) + 1;
+      });
+
+      setUniData(
+        Object.entries(uniMap).map(([university, applications]) => ({
+          university,
+          applications,
+        }))
+      );
+
+      const categoryMap = {};
+      applications.forEach((a) => {
+        categoryMap[a.scholarshipCategory] =
+          (categoryMap[a.scholarshipCategory] || 0) + 1;
+      });
+
+      setCategoryData(
+        Object.entries(categoryMap).map(([name, value]) => ({
+          name,
+          value,
+        }))
+      );
+    };
+
+    loadAnalytics();
+  }, []);
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-        <div className="p-6 rounded-xl bg-base-100 shadow border border-base-300">
+    <div className="max-w-8xl mx-auto p-6">
+      <div className="grid grid-cols-1 text-center md:grid-cols-3 gap-6 mb-10">
+        <div className="p-6 bg-green-200 rounded-xl shadow border border-base-300">
           <h3 className="text-gray-600 text-sm">Total Users</h3>
           <p className="text-3xl font-bold text-green-600 mt-2">{totalUsers}</p>
         </div>
 
-        <div className="p-6 rounded-xl bg-base-100 shadow border border-base-300">
+        <div className="p-6 bg-green-200 rounded-xl shadow border border-base-300">
           <h3 className="text-gray-600 text-sm">Total Fees Collected</h3>
           <p className="text-3xl font-bold text-green-600 mt-2">
             ${totalFeesCollected.toLocaleString()}
           </p>
         </div>
 
-        <div className="p-6 rounded-xl bg-base-100 shadow border border-base-300">
+        <div className="p-6 rounded-xl bg-green-200 shadow border border-base-300">
           <h3 className="text-gray-600 text-sm">Total Scholarships</h3>
           <p className="text-3xl font-bold text-green-600 mt-2">
             {totalScholarships}
@@ -58,9 +99,8 @@ const Analytics = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-        {/* Bar Chart */}
-        <div className="p-6 bg-base-100 rounded-xl shadow border border-base-300">
-          <h3 className="text-lg font-semibold mb-4">
+        <div className="py-6 pr-6 bg-base-100 rounded-xl shadow border border-base-300">
+          <h3 className="text-lg px-6 font-semibold mb-4">
             Applications per University
           </h3>
           <ResponsiveContainer width="100%" height={300}>
@@ -77,8 +117,7 @@ const Analytics = () => {
           </ResponsiveContainer>
         </div>
 
-        {/* Pie Chart */}
-        <div className="px-3 py-2 bg-base-100 rounded-xl shadow border border-base-300 h-110">
+        <div className="px-5 pb-1 pt-6 bg-base-100 rounded-xl shadow border border-base-300 h-110">
           <h3 className="text-lg font-semibold mb-4">
             Applications by Scholarship Category
           </h3>
@@ -88,12 +127,10 @@ const Analytics = () => {
                 data={categoryData}
                 cx="50%"
                 cy="50%"
-                labelLine={false}
                 outerRadius={100}
-                fill="#22c55e"
                 dataKey="value"
                 label>
-                {categoryData.map((entry, index) => (
+                {categoryData.map((_, index) => (
                   <Cell key={index} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>

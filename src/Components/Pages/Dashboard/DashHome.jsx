@@ -2,7 +2,7 @@ import React, { use } from "react";
 import { AuthContext } from "../../../Authentication/AuthContext";
 
 const DashHome = () => {
-  const { userFromDb } = use(AuthContext)
+  const { userFromDb } = use(AuthContext);
   const role = userFromDb.role;
 
   const roleText =
