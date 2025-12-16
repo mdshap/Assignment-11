@@ -1,108 +1,97 @@
-🎓 Scholar Stream
-A Modern Scholarship Management Platform
+# 🎓 Scholar Stream
+### A Modern Scholarship Management Platform
 
+![Scholar Stream](https://img.shields.io/badge/Scholar-Stream-green?style=for-the-badge)
+![MERN](https://img.shields.io/badge/MERN-Stack-success?style=for-the-badge)
+![Firebase](https://img.shields.io/badge/Firebase-Authentication-orange?style=for-the-badge)
+![Stripe](https://img.shields.io/badge/Stripe-Payments-blueviolet?style=for-the-badge)
 
+---
 
+## 🚀 Live Links
+- 🌐 **Live Website:** https://your-live-site-link.com  
+- 🖥️ **Backend API:** https://your-server-link.com  
 
+---
 
+## 📌 Project Overview
 
+**Scholar Stream** is a full-stack scholarship management system that enables students to discover scholarships, apply online, complete secure payments, track application status, and submit reviews.
 
+Admins and moderators can manage scholarships, applications, reviews, and analytics through a secure dashboard.
 
-🚀 Live Website
+---
 
-🔗 Live URL: (Add your deployed link here)
-🔗 Server API: (Add backend link here)
+## ✨ Features
 
-📌 Project Overview
+### 👨‍🎓 Student
+- Browse & search scholarships  
+- View detailed scholarship information  
+- Secure application payment (Stripe)  
+- Apply for scholarships  
+- Track application status  
+- Submit reviews after completion  
+- Manage profile, applications & reviews  
 
-Scholar Stream is a full-stack scholarship management system that helps students discover scholarships, apply online, complete payments, track applications, and submit reviews — all in one platform.
+### 🛡️ Admin / Moderator
+- Add, update & delete scholarships  
+- Manage applications (approve / reject)  
+- Provide feedback to applicants  
+- Analytics dashboard  
+- Role-based access control  
 
-Universities and admins can manage scholarships, applications, reviews, and analytics through a secure dashboard.
+---
 
-✨ Key Features
-👨‍🎓 Student Features
+## 🧱 Tech Stack
 
-🔍 Browse & search scholarships
+### 🌐 Frontend
+- React.js  
+- React Router  
+- Tailwind CSS  
+- DaisyUI  
+- Framer Motion  
+- Recharts  
+- Axios  
+- React Hot Toast  
 
-📄 View detailed scholarship information
+### 🖥️ Backend
+- Node.js  
+- Express.js  
+- MongoDB  
+- JWT Authentication  
+- Stripe Payment Gateway  
 
-💳 Secure application payment via Stripe
+### 🔐 Authentication
+- Firebase Authentication  
+  - Email & Password  
+  - Google Sign-In  
 
-📝 Apply for scholarships
+---
 
-📊 Track application status
+## 💳 Payment Integration
+- Secure payments using **Stripe**
+- Payment intent handled on backend
+- Application status updates after successful payment
 
-⭐ Submit reviews after completion
+---
 
-👤 Manage profile, applications & reviews
+## 🗂️ Database Collections
+- Users  
+- Scholarships  
+- Applications  
+- Reviews  
 
-🛡️ Admin / Moderator Features
+---
 
-➕ Add, update & delete scholarships
+## 🔐 Environment Variables
 
-📋 Manage applications (approve / reject)
+### 📁 Client (`.env`)
+```env
+VITE_FIREBASE_API_KEY=your_key
+VITE_FIREBASE_AUTH_DOMAIN=your_domain
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_bucket
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
 
-💬 Provide feedback on applications
-
-📊 Analytics dashboard
-
-🧑‍⚖️ Role-based access control (Admin / Moderator / User)
-
-🧱 Tech Stack
-🌐 Frontend
-
-⚛️ React.js
-
-🚦 React Router
-
-🎨 Tailwind CSS
-
-🌼 DaisyUI
-
-🎞️ Framer Motion
-
-📊 Recharts
-
-🔔 React Hot Toast
-
-🎯 Axios
-
-🖥️ Backend
-
-🟢 Node.js
-
-🚂 Express.js
-
-🍃 MongoDB
-
-🔐 JWT Authentication
-
-💳 Stripe Payment Gateway
-
-🔐 Authentication
-
-🔥 Firebase Authentication
-
-Email & Password
-
-Google Sign-In
-
-💳 Payment System
-
-Secure payments using Stripe
-
-Payment intent handled from backend
-
-Application status updates after successful payment
-
-🗂️ Database Collections (MongoDB)
-
-Users
-
-Scholarships
-
-Applications
-
-Reviews
-
-Each collection follows structured schemas to maintain data integrity.
+VITE_STRIPE_PUBLIC_KEY=your_stripe_public_key
