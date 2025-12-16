@@ -6,6 +6,7 @@ import { AuthContext } from "../../Authentication/AuthContext";
 import Loader from "../Pages/Loader/Loader";
 import ReactToaster from "../../ReactToaster/ReactToaster";
 import ScrollToTop from "../../../ScrollToTop";
+import ScrollToTopButton from "../../../ScrollToTopButton";
 
 const Root = () => {
   const { loading } = use(AuthContext);
@@ -20,6 +21,7 @@ const Root = () => {
       <NavBar></NavBar>
       <ReactToaster />
       <Outlet></Outlet>
+      <ScrollToTopButton/>
       <Footer></Footer>
     </div>
   );
