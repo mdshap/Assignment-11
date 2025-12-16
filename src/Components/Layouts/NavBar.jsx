@@ -86,7 +86,7 @@ const Navbar = () => {
 
   return (
     <div className="sticky top-0 z-60">
-      <div className="navbar bg-white max-h-12 sm:max-h-17 sm:min-h-0  max-w-[1600px] mx-auto shadow-sm">
+      <div className="navbar bg-green-100 max-h-12 sm:max-h-17 sm:min-h-0  max-w-[1600px] mx-auto shadow-sm">
         <div className="navbar-start px-2 sm:px-6 z-40">
           <div className="dropdown">
             <div
@@ -174,7 +174,7 @@ const Navbar = () => {
               </Link>
               <Link
                 to="/register"
-                className="btn text-[10px] px-2 h-8 sm:h-10 py-2 sm:px-4 md:text-[16px] border-green-600 text-green-700">
+                className="btn bg-transparent text-[10px] px-2 h-8 sm:h-10 py-2 sm:px-4 md:text-[16px] border-green-600 text-green-700">
                 Register <MdOutlineAssignment />
               </Link>
             </div>
