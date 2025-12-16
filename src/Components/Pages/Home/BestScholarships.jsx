@@ -24,9 +24,6 @@ const BestScholarships = () => {
       });
   }, [showAll]);
 
-  const handleShowAll = () => {
-    setShowAll(!showAll);
-  };
 
   if (loading || scholarshipsLoading) {
     return <Loader></Loader>;
@@ -35,15 +32,21 @@ const BestScholarships = () => {
   return (
     <div>
       <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 place-items-center">
-        {scholarships.map((scholarship) => (
-          <ScholarshipCard scholarship={scholarship}></ScholarshipCard>
-        ))}
+        {[...scholarships]
+          .sort(
+            (a, b) =>
+              Number(a.universityWorldRank) - Number(b.universityWorldRank)
+          )
+          .slice(0, 6)
+          .map((scholarship) => (
+            <ScholarshipCard key={scholarship._id} scholarship={scholarship} />
+          ))}
       </div>
 
       <div className="w-full flex justify-center mt-5">
-        <button onClick={handleShowAll} className="btn btn-ghost mx-auto">
-          {showAll ? "Show Less" : "Show All"}
-        </button>
+        <Link to='/all-scholarships' className="btn btn-ghost mx-auto">
+          Show All
+        </Link>
       </div>
     </div>
   );

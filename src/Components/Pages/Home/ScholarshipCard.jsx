@@ -28,14 +28,18 @@ const ScholarshipCard = ({ scholarship }) => {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: false, margin: "-80px" }}
-      className="w-full max-w-[350px] bg-white rounded-xl shadow-md overflow-hidden transform transition hover:-translate-y-1 hover:shadow-xl relative">
+      className="w-full bg-blue-50 max-w-[350px] rounded-xl shadow-md overflow-hidden transform transition hover:-translate-y-1 hover:shadow-xl relative">
       <div
         className="h-60 bg-center bg-cover"
         style={{ backgroundImage: `url(${scholarship?.universityImage})` }}
       />
 
-      <p className="bg-blue-500 rounded-xl -mt-8 ml-62 text-white px-3 text-center text-sm absolute">
+      <p className="bg-blue-500 rounded-xl -mt-8 ml-62 lg:ml-58 xl:ml-62 text-white px-3 text-center text-sm absolute">
         {scholarship.degree}
+      </p>
+
+      <p className="text-white font-bold rounded-xl -mt-8 ml-3  px-3 text-center text-sm absolute">
+        Rank: {scholarship.universityWorldRank}
       </p>
 
       <div className="p-4">

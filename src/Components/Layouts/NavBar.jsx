@@ -85,8 +85,8 @@ const Navbar = () => {
   );
 
   return (
-    <div className="">
-      <div className="navbar bg-linear-to-br to-green-200 min-h-20 sm:min-h-0 bg-base-100 max-w-[1600px] mx-auto shadow-sm">
+    <div className="sticky top-0 z-60">
+      <div className="navbar bg-white max-h-12 sm:max-h-17 sm:min-h-0  max-w-[1600px] mx-auto shadow-sm">
         <div className="navbar-start px-2 sm:px-6 z-40">
           <div className="dropdown">
             <div
@@ -109,7 +109,7 @@ const Navbar = () => {
             </div>
             <ul
               tabIndex="-1"
-              className="menu menu-lg dropdown-content bg-base-100 rounded-box z-1 mt-3 w-60 h-55 p-2 shadow">
+              className="menu -ml-4.5 sm:-ml-7.5 menu-lg dropdown-content bg-base-100 rounded-box z-1 mt-3.5 sm:mt-4  w-60 max-h-45 px-2 py-4 shadow">
               {links}
             </ul>
           </div>
@@ -132,7 +132,7 @@ const Navbar = () => {
                 <div tabIndex={0} role="button" className=" m-1">
                   <Link to="/profile">
                     <img
-                      className="rounded-full cursor-pointer object-cover w-13 h-13"
+                      className="rounded-full cursor-pointer object-cover w-11 h-11 sm:h-13 sm:w-13"
                       data-tooltip-id="my-tooltip"
                       data-tooltip-content={user?.displayName}
                       src={`${user?.photoURL}`}
@@ -145,10 +145,10 @@ const Navbar = () => {
                   tabIndex="-1"
                   className="dropdown-content menu bg-base-100 rounded-box  w-45 md:w-55 border p-2 z-40 shadow-sm ">
                   <li>
-                    <a>
+                    <Link to="/dashboard/profile">
                       {" "}
                       <FaUser /> Profile
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <Link to="/dashboard">
@@ -158,7 +158,7 @@ const Navbar = () => {
                   <li>
                     <a
                       onClick={handleSignOut}
-                      className="btn mt-3 h-8 btn-secondary hover:bg-secondary text-[10px] md:text-[12px] hover:text-white bg-transparent text-secondary">
+                      className="btn mt-3 h-8 border-red-500 bg-red-500 text-[10px] md:text-[12px] text-white">
                       <p className="">Logout</p> <MdLogout />
                     </a>
                   </li>
@@ -174,7 +174,7 @@ const Navbar = () => {
               </Link>
               <Link
                 to="/register"
-                className="btn text-[10px] px-2 h-8 sm:h-10 py-2 sm:px-4 md:text-[16px] border-blue-500 text-blue-500">
+                className="btn text-[10px] px-2 h-8 sm:h-10 py-2 sm:px-4 md:text-[16px] border-green-600 text-green-700">
                 Register <MdOutlineAssignment />
               </Link>
             </div>

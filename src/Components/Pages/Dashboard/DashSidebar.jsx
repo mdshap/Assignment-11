@@ -108,7 +108,7 @@ const DashSidebar = () => {
               if (!confirm("Do you want to Logout?")) return;
               signOutUser();
             }}
-            className={`btn btn-sm btn-outline ${collapsed ? "" : "w-full"}`}>
+            className={`btn btn-sm bg-base-100 text-red-500 hover:bg-red-500 hover:text-white btn-outline ${collapsed ? "" : "w-full"}`}>
             <div className={`${collapsed ? "hidden" : "flex gap-2"}`}>
               <p className="text-md">Logout</p> <LuLogOut className="text-lg" />
             </div>

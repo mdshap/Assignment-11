@@ -4,6 +4,7 @@ import { Outlet } from "react-router";
 import { AuthContext } from "../../Authentication/AuthContext";
 import Loader from "../Pages/Loader/Loader";
 import ReactToaster from "../../ReactToaster/ReactToaster";
+import ScrollToTop from "../../../ScrollToTop";
 
 const Dashboard = () => {
 
@@ -15,6 +16,7 @@ const Dashboard = () => {
 
   return (
     <div data-theme="light" className="flex max-w-[1440px] mx-auto bg-green-50">
+      <ScrollToTop/>
       <DashSidebar />
       <ReactToaster/>
       <Outlet />

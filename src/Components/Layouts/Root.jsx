@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import { AuthContext } from "../../Authentication/AuthContext";
 import Loader from "../Pages/Loader/Loader";
 import ReactToaster from "../../ReactToaster/ReactToaster";
+import ScrollToTop from "../../../ScrollToTop";
 
 const Root = () => {
   const { loading } = use(AuthContext);
@@ -15,6 +16,7 @@ const Root = () => {
   return (
     <div data-theme="light" className="max-w-[1600px] mx-auto bg-green-50">
 
+      <ScrollToTop/>
       <NavBar></NavBar>
       <ReactToaster />
       <Outlet></Outlet>
