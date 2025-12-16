@@ -3,7 +3,7 @@ import { AuthContext } from "../../../Authentication/AuthContext";
 
 const DashHome = () => {
   const { userFromDb } = use(AuthContext);
-  const role = userFromDb.role;
+  const role = userFromDb?.role;
 
   const roleText =
     role === "Admin" ? "Admin" : role === "Moderator" ? "Moderator" : "Student";
