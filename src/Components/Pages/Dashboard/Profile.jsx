@@ -20,7 +20,7 @@ const Profile = () => {
       setUploading(true);
       let photoURL = userFromDb.photoURL;
 
-      // upload image if selected
+
       if (imageFile) {
         const formData = new FormData();
         formData.append("image", imageFile);
@@ -133,7 +133,6 @@ const Profile = () => {
           <div className="relative w-full max-w-md bg-base-100 rounded-2xl p-6 shadow-lg">
             <h3 className="text-lg font-semibold mb-4">Edit Profile</h3>
 
-            {/* NAME */}
             <div className="mb-4">
               <label className="text-sm text-gray-600">Name</label>
               <input
@@ -144,7 +143,6 @@ const Profile = () => {
               />
             </div>
 
-            {/* IMAGE */}
             <div className="mb-4">
               <label className="text-sm text-gray-600">Profile Photo</label>
               <input
@@ -155,7 +153,6 @@ const Profile = () => {
               />
             </div>
 
-            {/* ACTIONS */}
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => setEditModal(false)}
