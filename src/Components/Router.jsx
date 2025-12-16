@@ -56,13 +56,17 @@ export const router = createBrowserRouter([
         Component: ScholarshipDetails,
       },
       {
-        path: 'payment',
-        element: <StripeProvider>
-          <CheckOutForm/>
-        </StripeProvider>
+        path: "payment",
+        element: (
+          <PrivateRoute>
+            <StripeProvider>
+              <CheckOutForm />
+            </StripeProvider>
+          </PrivateRoute>
+        ),
       },
       {
-        path: 'payment-success',
+        path: "payment-success",
         Component: PaymentSuccess,
       },
       {

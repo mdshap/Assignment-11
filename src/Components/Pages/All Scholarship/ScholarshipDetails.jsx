@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
 import Loader from "../Loader/Loader";
 import axiosProvider from "../../../API/axiosProvider";
+import ScholarshipReview from "./ScholarshipReview";
 
 const ScholarshipDetails = () => {
   const { id } = useParams();
@@ -159,6 +160,8 @@ const ScholarshipDetails = () => {
             </div>
           </div>
         </div>
+
+        <ScholarshipReview id={id}/>
       </div>
     </div>
   );
