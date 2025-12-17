@@ -9,8 +9,8 @@
 ---
 
 ## 🚀 Live Links
-- 🌐 **Live Website:** https://your-live-site-link.com  
-- 🖥️ **Backend API:** https://your-server-link.com  
+- 🌐 **Live Website:** https://zingy-starship-a00546.netlify.app/
+- 🖥️ **Backend API:** https://assignment-11-sever.onrender.com/
 
 ---
 
