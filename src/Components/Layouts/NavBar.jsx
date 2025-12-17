@@ -168,13 +168,13 @@ const Navbar = () => {
           ) : (
             <div className="flex gap-2 ">
               <Link
-                className="btn px-2 py-2 h-8 sm:h-10 sm:px-4 text-[10px] md:text-[16px] bg-green-600 text-white"
+                className="btn px-2 py-1 h-9 sm:h-10 sm:px-4 text-[11px] md:text-[16px] bg-green-600 text-white"
                 to="/login">
                 Login <FaUser />
               </Link>
               <Link
                 to="/register"
-                className="btn bg-transparent text-[10px] px-2 h-8 sm:h-10 py-2 sm:px-4 md:text-[16px] border-green-600 text-green-700">
+                className="btn bg-transparent text-[11px] px-2 h-9 sm:h-10 py-1 sm:px-4 md:text-[16px] border-green-600 text-green-700">
                 Register <MdOutlineAssignment />
               </Link>
             </div>

@@ -6,6 +6,7 @@ import "swiper/css/navigation";
 import CardAllScholarship from "./CardAllScholarship";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import axiosProvider from "../../../API/axiosProvider";
+import Loader from "../Loader/Loader";
 
 const AllScholarship = () => {
   const [scholarships, setScholarships] = useState([]);
@@ -18,6 +19,8 @@ const AllScholarship = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const items = [
     { id: "all", label: "All" },
     { id: "full", label: "Full Fund" },
@@ -26,6 +29,8 @@ const AllScholarship = () => {
   ];
 
   useEffect(() => {
+    setIsLoading(true);
+
     axiosProvider
       .get("/scholarships", {
         params: {
@@ -40,9 +45,11 @@ const AllScholarship = () => {
         setScholarships(res.data.data);
         setTotalPages(res.data.totalPages);
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => console.log(error.message))
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, [searchText, selectedCategory, feeAscending, currentPage]);
-
   useEffect(() => {
     setCurrentPage(1);
   }, [searchText, selectedCategory, feeAscending]);
@@ -51,6 +58,13 @@ const AllScholarship = () => {
     setSelectedCategory(label);
     setOpen(false);
   };
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "instant",
+    });
+  }, [currentPage]);
 
   return (
     <div className="w-full">
@@ -110,14 +124,20 @@ const AllScholarship = () => {
       </div>
 
       <div className="relative min-h-[90vh] mt-10 max-w-7xl mx-auto px-6">
-        <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 place-items-center">
-          {scholarships.map((scholarship) => (
-            <CardAllScholarship
-              key={scholarship._id}
-              scholarship={scholarship}
-            />
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="flex justify-center items-center ">
+            <Loader />
+          </div>
+        ) : (
+          <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 place-items-center">
+            {scholarships.map((scholarship) => (
+              <CardAllScholarship
+                key={scholarship._id}
+                scholarship={scholarship}
+              />
+            ))}
+          </div>
+        )}
 
         {scholarships.length === 0 && (
           <p className="text-center flex justify-center items-center h-[80vh] -mt-10 text-gray-500">
