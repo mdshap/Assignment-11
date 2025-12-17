@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { AuthContext } from "../../../Authentication/AuthContext";
-import Loader from "../Loader/Loader";
 import { FaCaretDown, FaCaretUp, FaFilter } from "react-icons/fa";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -19,6 +15,9 @@ const AllScholarship = () => {
   const [open, setOpen] = useState(false);
   const [feeAscending, setFeeAscending] = useState(true);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
   const items = [
     { id: "all", label: "All" },
     { id: "full", label: "Full Fund" },
@@ -33,12 +32,19 @@ const AllScholarship = () => {
           search: searchText || undefined,
           category: selectedCategory !== "All" ? selectedCategory : undefined,
           order: feeAscending ? "ascending" : "descending",
+          page: currentPage,
+          limit: 3,
         },
       })
       .then((res) => {
-        setScholarships(res.data);
+        setScholarships(res.data.data);
+        setTotalPages(res.data.totalPages);
       })
       .catch((error) => console.log(error.message));
+  }, [searchText, selectedCategory, feeAscending, currentPage]);
+
+  useEffect(() => {
+    setCurrentPage(1);
   }, [searchText, selectedCategory, feeAscending]);
 
   const handleCategoryClick = (label) => {
@@ -66,7 +72,7 @@ const AllScholarship = () => {
               open ? "dropdown-open" : ""
             }`}>
             <button
-              className="btn flex w-full sm:w-30  gap-2"
+              className="btn flex w-full sm:w-30 gap-2"
               onClick={() => setOpen(!open)}>
               <FaFilter /> Category
             </button>
@@ -104,45 +110,50 @@ const AllScholarship = () => {
       </div>
 
       <div className="relative min-h-[90vh] mt-10 max-w-7xl mx-auto px-6">
-        <button
-          className="swiper-prev btn-xl absolute left-0 top-1/2 -translate-y-1/2 z-20 
-                     bg-green-500 shadow-md rounded-full w-10 h-10 flex items-center justify-center 
-                     hover:bg-green-700 text-white transition">
-          <IoIosArrowBack />
-        </button>
-
-        <button
-          className="swiper-next absolute right-0 top-1/2 -translate-y-1/2 z-20 
-                     bg-green-500 shadow-md rounded-full w-10 h-10 flex items-center justify-center 
-                     hover:bg-green-700 text-white transition">
-          <IoIosArrowForward />
-        </button>
-
-        <Swiper
-          modules={[Pagination, Navigation]}
-          navigation={{
-            prevEl: ".swiper-prev",
-            nextEl: ".swiper-next",
-          }}
-          pagination={{ clickable: true }}
-          spaceBetween={40}
-          slidesPerView={3}
-          breakpoints={{
-            0: { slidesPerView: 1 },
-            640: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
-          }}>
+        <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 place-items-center">
           {scholarships.map((scholarship) => (
-            <SwiperSlide key={scholarship._id} className="flex justify-center">
-              <CardAllScholarship scholarship={scholarship} />
-            </SwiperSlide>
+            <CardAllScholarship
+              key={scholarship._id}
+              scholarship={scholarship}
+            />
           ))}
-        </Swiper>
+        </div>
 
         {scholarships.length === 0 && (
           <p className="text-center flex justify-center items-center h-[80vh] -mt-10 text-gray-500">
             <span className="text-3xl">No scholarships found</span>
           </p>
+        )}
+
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-2 mt-10">
+            <button
+              className="btn btn-sm"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((p) => p - 1)}>
+              <IoIosArrowBack /> Prev
+            </button>
+
+            {[...Array(totalPages).keys()].map((num) => (
+              <button
+                key={num}
+                onClick={() => setCurrentPage(num + 1)}
+                className={`btn btn-sm ${
+                  currentPage === num + 1
+                    ? "btn-active bg-green-600 text-white"
+                    : ""
+                }`}>
+                {num + 1}
+              </button>
+            ))}
+
+            <button
+              className="btn btn-sm"
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage((p) => p + 1)}>
+              Next <IoIosArrowForward />
+            </button>
+          </div>
         )}
       </div>
     </div>
